@@ -1,0 +1,83 @@
+SELECT
+	t.*,
+	antes.'SI Presenta Rend. De Cuenta' as 'Presenta antes',
+	ahora.'SI Presenta Rend. De Cuenta' as 'Presenta ahora',
+	d.*
+FROM
+	(SELECT 
+		transferencias.* 
+	FROM 
+		transferencias) t
+
+
+	LEFT JOIN (
+
+
+		SELECT
+			subquery.'Fecha_de_Recepcion', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'codigo', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha_de_Recepcion', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'codigo', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'codigo' ORDER BY rendicionDeCuentas.'Fecha_de_Recepcion' DESC) AS rn
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rn = 1
+	) antes
+	ON t.'mes_atencion' = antes.'MES ATENCION' 
+	and t.'cod_proyecto' = antes.'codigo'
+
+
+	LEFT JOIN (
+
+
+		SELECT
+			subquery.'Fecha_de_Recepcion', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'codigo', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha_de_Recepcion', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'codigo', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'codigo' ORDER BY rendicionDeCuentas.'Fecha_de_Recepcion' DESC) AS rp
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rp = 1
+	) ahora
+	ON ahora.'MES ATENCION' = '202309'
+	and t.'cod_proyecto' = ahora.'codigo'
+
+
+	LEFT JOIN (
+	
+				SELECT 
+					deuda.* 
+				FROM
+					deuda
+				WHERE
+					deuda.'Estado Cuota' = 'En Proceso'
+				) d
+		ON t.'cod_proyecto' = d.'cod_proyecto'
+		AND t.'numero_mes' = d.'numero_mes'

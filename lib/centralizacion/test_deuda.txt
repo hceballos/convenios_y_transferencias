@@ -1,0 +1,9 @@
+SELECT 
+	deuda.*,
+	SUM("Monto Cuota") AS Suma_Monto_Cuota
+FROM
+	deuda
+WHERE
+	deuda.'cod_proyecto' = '1060465'
+GROUP BY
+	cod_proyecto, "Tipo Deuda", Tipo

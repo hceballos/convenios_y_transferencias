@@ -1,0 +1,4 @@
+SELECT
+	deuda.*
+FROM
+	deuda

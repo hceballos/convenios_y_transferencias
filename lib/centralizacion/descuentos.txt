@@ -1,0 +1,27 @@
+SELECT
+	transf.'tipo_pago',
+	transf.'mes_atencion',
+	transf.'cod_proyecto',
+	transf.'proyecto',
+	transf.'plazas_atendidas',
+	transf.'monto_liquido_pagado',
+	transf.'numero_mes',
+	d.'cod_proyecto',
+	d.'Tipo deuda',
+	d.'fecha_Actualizacion',
+	d.'Monto total',
+	d.'n_Cuota',
+	d.'Monto Cuota',
+	d.'Estado Cuota',
+	d.'numero_mes'
+FROM
+	(SELECT transferencias.* FROM transferencias)transf
+	LEFT JOIN(SELECT deuda.* FROM deuda)d  
+		ON transf.cod_Proyecto = d.cod_Proyecto
+		AND transf.numero_mes = d.numero_mes
+WHERE
+	transf.cod_Proyecto = d.cod_Proyecto
+	AND transf.numero_mes = d.numero_mes	
+
+	
+	

@@ -1,0 +1,23 @@
+Estado de Ejecución Presupuestaria
+desde : 01/01/22
+hasta : (ultimo cierre)
+Catálogo Base : 24
+Catálogo de Cruce : UnidadesDemandantes :
+											03 Dirección Regional I Región
+											04 Dirección Regional II Región
+											05 Dirección Regional III Región
+											06 Dirección Regional IV Región
+											07 Dirección Regional V Región
+											08 Dirección Regional VI Región
+											09 Dirección Regional VII Región
+											10 Dirección Regional IX Región
+											11 Dirección Regional X Región
+											12 Dirección Regional XI Región
+											13 Dirección Regional XII Región
+											14 Dirección Regional Metropolitana
+											15 Dirección Regional XIV Región
+											16 Dirección Regional XV Región
+											17 Dirección Regional XVI Región
+											18 Dirección Regional VIII Región
+Catalogo Base  : Nvel 9
+Catalogo Cruce : Nivel 9

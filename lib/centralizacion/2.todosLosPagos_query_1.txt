@@ -1,0 +1,5 @@
+SELECT
+	todosLosPagos.*,
+	(todosLosPagos.'MONTO MAXIMO PAGO' / todosLosPagos.'PLAZAS CONVENIDAS')* todosLosPagos.'NUMERO PLAZAS' as montoCalculado
+FROM
+	todosLosPagos

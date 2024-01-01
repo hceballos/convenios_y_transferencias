@@ -1,0 +1,102 @@
+SELECT
+	t.*,
+	antes.'SI Presenta Rend. De Cuenta' as 'Presenta antes',
+	ahora.'SI Presenta Rend. De Cuenta' as 'Presenta ahora',
+	m.'costo_NNA',
+	tp.*
+FROM
+	(SELECT 
+		transferencias.* 
+	FROM 
+		transferencias) t
+
+
+	LEFT JOIN (
+
+
+		SELECT
+			subquery.'Fecha_de_Recepcion', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'codigo', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha_de_Recepcion', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'codigo', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'codigo' ORDER BY rendicionDeCuentas.'Fecha_de_Recepcion' DESC) AS rn
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rn = 1
+	) antes
+	ON t.'mes_atencion' = antes.'MES ATENCION' 
+	and t.'cod_proyecto' = antes.'codigo'
+
+
+	LEFT JOIN (
+
+
+		SELECT
+			subquery.'Fecha_de_Recepcion', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'codigo', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha_de_Recepcion', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'codigo', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'codigo' ORDER BY rendicionDeCuentas.'Fecha_de_Recepcion' DESC) AS rp
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rp = 1
+	) ahora
+	ON ahora.'MES ATENCION' = '{variable_periodo}'
+	and t.'cod_proyecto' = ahora.'codigo'
+
+
+	LEFT JOIN (
+	
+				SELECT 
+					malla.* 
+				FROM
+					malla
+				) m
+		ON t.'cod_proyecto' = m.'cod_Proyecto'
+
+
+
+	LEFT JOIN (
+				SELECT 
+					todosLosPagos.'cod_proyecto' as 'cod_proyecto_pagado',
+					todosLosPagos.'mes_atencion' as 'mes_atencion_pagado',
+					todosLosPagos.'folio' as 'folio_pagado',
+					todosLosPagos.'tipo_pago' as 'tipo_pago_pagado',
+					todosLosPagos.'monto_liquido_pagado' as 'monto_liquido_pagado_pagado',
+					todosLosPagos.'plazas_convenidas' as 'plazas_convenidas_pagadas',
+					todosLosPagos.'plazas_atendidas' as 'plazas_atendidas_pagadas',
+					todosLosPagos.'numero_plazas' as 'numero_plazas_pagadas',
+					todosLosPagos.'FECHA DE PAGO' as 'FECHA DE PAGO PAGADO'
+				FROM
+					todosLosPagos
+
+	) tp
+	ON t.'cod_proyecto' = tp.'cod_proyecto_pagado'
+	and t.'mes_atencion' = tp.'mes_atencion_pagado'
+	and t.'tipo_pago' = tp.'tipo_pago_pagado'

@@ -1,0 +1,17 @@
+SELECT
+	transf.'tipo_pago',
+	transf.'mes_atencion',
+	transf.'cod_proyecto',
+	transf.'proyecto',
+	transf.'plazas_atendidas',
+	transf.'monto_liquido_pagado',
+	todos.'mes_atencion' as 'nes',
+	todos.'cod_proyecto',
+	todos.'monto_liquido_pagado'
+FROM
+	(SELECT transferencias.* FROM transferencias)transf
+	LEFT JOIN(SELECT todosLosPagos.* FROM todosLosPagos)todos  
+		ON transf.cod_Proyecto = todos.cod_Proyecto
+		AND transf.mes_atencion = todos.mes_atencion
+WHERE
+	todos.'monto_liquido_pagado' is not NULL

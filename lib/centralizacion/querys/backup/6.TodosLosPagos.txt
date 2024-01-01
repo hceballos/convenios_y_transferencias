@@ -1,0 +1,4 @@
+SELECT
+	todosLosPagos.*
+FROM
+	todosLosPagos

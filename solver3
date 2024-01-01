@@ -1,0 +1,34 @@
+import pulp
+
+# Definir el monto objetivo
+saldo = int(input("Ingresa el monto objetivo: "))
+
+# Definir la lista de monedas
+monedas = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000]
+
+# Crear el problema de optimización
+problema = pulp.LpProblem('Problema de cambio', pulp.LpMinimize)
+
+# Definir las variables
+variables = []
+for i in range(len(monedas)):
+    var = pulp.LpVariable('x{}'.format(i), lowBound=0, cat='Integer')
+    variables.append(var)
+
+# Definir la función objetivo
+problema += pulp.lpSum(variables)
+
+# Definir las restricciones
+problema += pulp.lpDot(variables, monedas) == saldo
+
+# Resolver el problema
+problema.solve()
+
+# Verificar el estado de la solución
+if problema.status == 1:  # 1 significa "Óptimo"
+    # Imprimir la solución
+    for i in range(len(monedas)):
+        if variables[i].value() > 0:
+            print('{} moneda(s) de {}.'.format(variables[i].value(), monedas[i]))
+else:
+    print('No se pudo encontrar una solución óptima.')

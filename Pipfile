@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+selenium = "*"
+sqlalchemy = "*"
+pandas = "*"
+schedule = "*"
+xlrd = "==1.2.0"
+python-crontab = "*"
+lxml = "*"
+xlsxwriter = "*"
+requests = "*"
+pyxlsb = "*"
+html5lib = "*"
+beautifulsoup4 = "*"
+jinja2 = "*"
+openpyxl = "*"
+pulp = "*"
+scipy = "*"
+pyomo = "*"
+
+[requires]
+python_version = "3.6"

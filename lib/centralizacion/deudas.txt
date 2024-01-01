@@ -1,0 +1,22 @@
+SELECT
+	transf.'tipo_pago',
+	transf.'mes_atencion',
+	transf.'cod_proyecto',
+	transf.'proyecto',
+	transf.'plazas_atendidas',
+	transf.'monto_liquido_pagado',
+	transf.'numero_mes',
+	d.*,
+	( d.'Monto Cuota' * 6 ) as montoCalculado,
+	(( d.'Monto Cuota' * 6 ) - d.'Monto total') as diferencia
+FROM
+	(SELECT transferencias.* FROM transferencias)transf
+	LEFT JOIN(SELECT deuda.* FROM deuda)d  
+		ON transf.cod_Proyecto = d.cod_Proyecto
+		AND transf.numero_mes = d.numero_mes
+WHERE
+	transf.cod_Proyecto = d.cod_Proyecto
+	AND transf.numero_mes = d.numero_mes
+	AND d.'Tipo' = 'Debe'
+	AND d.'Tipo deuda' = 'Anticipo'
+	AND ABS(diferencia) > 100

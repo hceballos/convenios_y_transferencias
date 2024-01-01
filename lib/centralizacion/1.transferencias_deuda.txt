@@ -1,0 +1,17 @@
+SELECT
+	t.*,
+	d.'Monto Cuota',
+	d.'numero_mes',
+	d.'Tipo Deuda',
+	d.'Fecha Vencimiento',
+	d.'observacion',
+	d.'Tipo',
+	d.'Monto Total',
+	d.'Cantidad Cuotas',
+	d.'n_Cuota',
+	d.'Estado Cuota'
+FROM
+	(SELECT transferencias.* FROM transferencias) t
+	LEFT JOIN ( SELECT deuda.* FROM deuda WHERE deuda.'Tipo' = 'Debe') d
+ON t.'cod_proyecto' = d.'cod_proyecto' 
+and t.'numero_mes' = d.'numero_mes'

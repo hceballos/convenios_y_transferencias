@@ -1,0 +1,24 @@
+SELECT 
+	r.'Unidad Ejecutora',
+	r.'Concepto Presupuesto',
+	r.'tipo_de_pago',
+	r.'Folio' as 'r.Folio',
+	r.'Monto Vigente' as 'r.MontoVigente',
+	r.'Monto Disponible' as 'r.MontoDisponible',
+	r.'Monto Consumido' as 'r.MontoConsumido',
+	c.'Folio' as 'c.Folio',
+	c.'rut' as 'c.rut',
+	c.'Monto Vigente' as 'c.MontoVigente',
+	c.'Monto Disponible' as 'c.MontoDisponible',
+	c.'Monto Consumido' as 'c.MontoConsumido'		
+FROM
+	(SELECT disponibilidadRequerimientos.* FROM disponibilidadRequerimientos WHERE disponibilidadRequerimientos.'cuenta' like '2401%')r
+
+	LEFT JOIN(SELECT disponibilidadCompromiso.* FROM disponibilidadCompromiso WHERE disponibilidadCompromiso.'cuenta' like '2401%' )c
+		ON r.'unico' = c.'unico'
+		and r.'CodRegion' = c.'CodRegion'
+		and r.'cuenta' = c.'cuenta'
+		and r.'tipo_de_pago' = c.'tipo_de_pago'	
+	WHERE
+	c.'CodRegion' like '2111002%'
+	and c.'cuenta' like '2401%'

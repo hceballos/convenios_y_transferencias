@@ -1,0 +1,64 @@
+SELECT
+	t.*,
+	antes.'SI Presenta Rend. De Cuenta' as 'Presenta antes'
+	ahora.'SI Presenta Rend. De Cuenta' as 'Presenta ahora'
+
+FROM
+	(SELECT 
+		transferencias.* 
+	FROM 
+		transferencias) t
+	LEFT JOIN (
+		SELECT
+			subquery.'Fecha de Recepción', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'Código ', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha de Recepción', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'Código ', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'Código ' ORDER BY rendicionDeCuentas.'Fecha de Recepción' DESC) AS rn
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rn = 1
+	) antes
+	ON t.'mes_atencion' = antes.'MES ATENCION' 
+	and t.'cod_proyecto' = antes.'Código '
+
+
+	LEFT JOIN (
+		SELECT
+			subquery.'Fecha de Recepción', 
+			subquery.'Region', 
+			subquery.'MES ATENCION',
+			subquery.'Código ', 
+			subquery.'SI Presenta Rend. De Cuenta',
+			subquery.'NO Presenta Rend. De Cuenta'
+		FROM (
+			SELECT
+				rendicionDeCuentas.'Fecha de Recepción', 
+				rendicionDeCuentas.'Region', 
+				rendicionDeCuentas.'MES ATENCION',
+				rendicionDeCuentas.'Código ', 
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta',
+				rendicionDeCuentas.'NO Presenta Rend. De Cuenta',
+				ROW_NUMBER() OVER(PARTITION BY rendicionDeCuentas.'MES ATENCION', rendicionDeCuentas.'Código ' ORDER BY rendicionDeCuentas.'Fecha de Recepción' DESC) AS rn
+			FROM
+				rendicionDeCuentas
+			WHERE
+				rendicionDeCuentas.'SI Presenta Rend. De Cuenta' IS NOT NULL
+		) AS subquery
+		WHERE subquery.rn = 1
+	) ahora
+ON ahora.'MES ATENCION' = '{mes_atencion}'
+and t.'cod_proyecto' = ahora.'Código '
