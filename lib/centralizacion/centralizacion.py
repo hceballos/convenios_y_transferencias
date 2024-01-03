@@ -43,4 +43,4 @@ class Centralizacion(Fuente):
 
 		# main()
 
-		Informes()
+		#Informes()
