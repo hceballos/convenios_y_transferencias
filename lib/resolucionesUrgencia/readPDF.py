@@ -7,7 +7,7 @@ class Main(object):
 		self.process_pdfs()
 
 	def process_pdfs(self):
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/*.pdf', recursive=True):
+		for f in glob.glob('C:/Users/hceballos/Music/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/*.pdf', recursive=True):
 			print('Procesando: ', f)
 			with open(f, 'rb') as archivo_pdf:
 				lector_pdf = PdfReader(archivo_pdf)
