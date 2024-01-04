@@ -33,13 +33,13 @@ class Centralizacion(Fuente):
 		Fuente.__init__(self, json_path)
 		datos = self.datos
 
-		ReadMalla(datos)
-		ReadTodosLosPagos(datos)
-		ReadTransferencias(datos)
-		ReadRetenidos(datos)
-		ReadReporteDeuda(datos)
-		ReadRendicionDeCuentas(datos)
-		ReadtodasLasFES(datos)
+		# ReadMalla(datos)
+		# ReadTodosLosPagos(datos)
+		# ReadTransferencias(datos)
+		# ReadRetenidos(datos)
+		# ReadReporteDeuda(datos)
+		# ReadRendicionDeCuentas(datos)
+		# ReadtodasLasFES(datos)
 
 		# main()
 
