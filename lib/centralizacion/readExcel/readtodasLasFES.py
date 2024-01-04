@@ -14,6 +14,6 @@ class ReadtodasLasFES:
 			todosLosPagos = todosLosPagos.append(todosLosPagos_actual, ignore_index=True)
 
 
-		print(todosLosPagos.columns)
+		#print(todosLosPagos.columns)
 		todosLosPagos['Analisis']      = 'Pendiente'
 
