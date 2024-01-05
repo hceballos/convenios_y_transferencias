@@ -23,6 +23,7 @@ openpyxl = "*"
 pulp = "*"
 scipy = "*"
 pyomo = "*"
+pypdf2 = "*"
 
 [requires]
 python_version = "3.6"
