@@ -52,6 +52,9 @@ class Main(object):
 				self.extract_data(data)
 
 	def extract_data(self, data):
+		# print(data)
+
+
 
 		folio = self.getFolio(data)
 		print("Folio encontrado x :", folio)
