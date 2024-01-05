@@ -34,8 +34,6 @@ class Main(object):
 		else:
 			print("No se encontró un número antes de 'Fecha'.")
 
-
-
 	def __init__(self):
 		self.process_pdfs()
 
