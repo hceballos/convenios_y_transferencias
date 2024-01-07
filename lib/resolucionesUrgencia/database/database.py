@@ -3,6 +3,29 @@ import sqlalchemy
 class Database(object):
 
 
+	def crear_ResolucionesExentas(self, resolucionesExentas):
+		metadata = sqlalchemy.MetaData()
+		engine = sqlalchemy.create_engine('sqlite:///resolucionesUrgencia.db', echo=False)
+		metadata = sqlalchemy.MetaData()
+
+		OrdenDeCompra = sqlalchemy.Table(
+			'resolucionesExentas',
+			metadata,
+			sqlalchemy.Column('id', sqlalchemy.Integer),
+			sqlalchemy.Column('cuenta', sqlalchemy.String),
+			sqlalchemy.Column('costo_NNA', sqlalchemy.Integer),
+			sqlalchemy.Column('cod_Proyecto', sqlalchemy.String),
+			sqlalchemy.Column('mes_atencion', sqlalchemy.String),
+			sqlalchemy.Column('monto_Convenio_2021', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Fijo', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Variable', sqlalchemy.Integer),
+			sqlalchemy.Column('factor_USS', sqlalchemy.Integer, primary_key=True)
+			)
+
+		metadata.create_all(engine)
+		resolucionesExentas.to_sql('resolucionesExentas', engine, if_exists='replace')
+
+
 	def crear_resoluciones(self, resoluciones):
 		metadata = sqlalchemy.MetaData()
 		engine = sqlalchemy.create_engine('sqlite:///resolucionesUrgencia.db', echo=False)

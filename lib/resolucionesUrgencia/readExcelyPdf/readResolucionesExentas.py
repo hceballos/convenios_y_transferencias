@@ -1,12 +1,32 @@
 from PyPDF2 import PdfReader
+import pandas as pd
 import glob
 import re
+from lib.resolucionesUrgencia.database.database import Database
 
 class ReadResolucionesExentas(object):
 
 	def getFolio(self, data):
 		folio = re.findall(r'\d{15}[AMU]\d{5}', data)
 		return folio[0]
+
+	def getProyecto(self, texto):
+		patron = r"\d{7}"
+		resultado = re.search(patron, texto)
+		if resultado:
+			numeros = resultado.group(0)
+			return numeros
+		else:
+			return "No se encontraron 7 números consecutivos en la cadena."
+
+	def getMesAtencion(self, texto):
+		patron = r"\d{7}(\d{6})"
+		resultado = re.search(patron, texto)
+		if resultado:
+			numeros_entre = resultado.group(1)
+			return numeros_entre
+		else:
+			return "No se encontró la secuencia específica en la cadena."
 
 	def getProyectoDenominado(self, texto):
 		patron = r'PROYECTO\s+[\n\s]*DENOMINADO\s+[“\'"](.*?)[”\'"]'
@@ -46,6 +66,8 @@ class ReadResolucionesExentas(object):
 
 
 	def __init__(self):
+		self.data_list = []
+
 		self.process_pdfs()
 
 	def process_pdfs(self):
@@ -60,7 +82,13 @@ class ReadResolucionesExentas(object):
 					texto = pagina.extract_text()
 					data += texto + "\n"
 				print()
-				self.extract_data(data)
+				self.extract_data(data)  # Llamada a la función para procesar los datos y almacenarlos en data_list
+
+		df = pd.DataFrame(self.data_list, columns=["folio", "proyecto", "mesAtencion", "proyectoDenominado", "resolucionExenta", "cdp", "plazasAtendidas"])
+		
+		print(df)
+		database = Database()
+		database.crear_ResolucionesExentas(df)
 
 	def extract_data(self, data):
 		texto = re.sub(r'\n+', ' ', data)
@@ -70,6 +98,13 @@ class ReadResolucionesExentas(object):
 
 		folio = self.getFolio(texto)
 		print("Folio 			: ", folio)
+
+		proyecto = self.getProyecto(texto)
+		print("Proyecto 		: ", proyecto)
+
+		mesAtencion = self.getMesAtencion(texto)
+		print("MesAtencion 		: ", mesAtencion)
+
 
 		proyectoDenominado = self.getProyectoDenominado(texto)
 		print("Nombre Proyecto 	: ", proyectoDenominado)
@@ -83,8 +118,4 @@ class ReadResolucionesExentas(object):
 		plazasAtendidas = self.getPlazasAtendidas(texto)
 		print("Plazas Atendidas 	: ", plazasAtendidas)
 
-
-
-
-
-
+		self.data_list.append([folio, proyecto, mesAtencion, proyectoDenominado, resolucionExenta, cdp, plazasAtendidas])
