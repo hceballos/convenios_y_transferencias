@@ -40,6 +40,7 @@ from lib.readEstadoEjecucionPresupuestaria import ReadEstadoEjecucionPresupuesta
 from lib.informe import Informes
 from lib.informeRequerimiento import InformeRequerimiento
 from lib.centralizacion.centralizacion import Centralizacion
+from lib.resolucionesUrgencia.resolucionesUrgencia import ResolucionesUrgencia
 from lib.plazoDeLaDeuda import PlazoDeLaDeuda
 import time
 
@@ -94,7 +95,8 @@ if __name__ == '__main__':
 	parser.add_argument("--apruebaConvenioDataBase",		help="apruebaConvenioDataBase")
 	parser.add_argument("--apruebaConvenio",				help="apruebaConvenio")
 	parser.add_argument("--centralizacion",					help="centralizacion")
-	parser.add_argument("--operation",      				help="operation", choices=["centralizacion", "apruebaConvenioDataBase", "apruebaConvenio", "analisisRetenidosDataBase", "analisisRetenidos", "analisisRetenidosReport", "80Bis", "HectorTest", "retencionesLevantamientos", "Presupuesto", "retener", "plazoDeLaDeuda", "calculoAFE", "db", "DisponibilidadPresupuestaria" , "urgencia" , "Hector", "Sandra", "sigfe", "calculoPrevioPago" ,"Alvaro", "Alicia", "Miguel"])
+	parser.add_argument("--resolucionesUrgencia",			help="resolucionesUrgencia")
+	parser.add_argument("--operation",      				help="operation", choices=["centralizacion", "resolucionesUrgencia", "apruebaConvenioDataBase", "apruebaConvenio", "analisisRetenidosDataBase", "analisisRetenidos", "analisisRetenidosReport", "80Bis", "HectorTest", "retencionesLevantamientos", "Presupuesto", "retener", "plazoDeLaDeuda", "calculoAFE", "db", "DisponibilidadPresupuestaria" , "urgencia" , "Hector", "Sandra", "sigfe", "calculoPrevioPago" ,"Alvaro", "Alicia", "Miguel"])
 	args = parser.parse_args()
 
 	if args.operation == 'db':
@@ -245,3 +247,7 @@ if __name__ == '__main__':
 
 	elif args.operation == 'centralizacion':
 		Centralizacion(json_path)
+
+	elif args.operation == 'resolucionesUrgencia':
+		ResolucionesUrgencia(json_path)
+

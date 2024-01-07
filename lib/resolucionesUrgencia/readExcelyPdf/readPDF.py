@@ -2,7 +2,7 @@ from PyPDF2 import PdfReader
 import glob
 import re
 
-class Main(object):
+class ReadPDF(object):
 
 	def getFolio(self, data):
 		folio = re.findall(r'\d{15}[AMU]\d{5}', data)
@@ -38,7 +38,7 @@ class Main(object):
 		self.process_pdfs()
 
 	def process_pdfs(self):
-		for f in glob.glob('C:/Users/hceballos/Music/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/pdfs/*.pdf', recursive=True):
+		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/pdfs/*.pdf', recursive=True):
 			print('Procesando: ', f)
 			with open(f, 'rb') as archivo_pdf:
 				lector_pdf = PdfReader(archivo_pdf)
@@ -70,5 +70,3 @@ class Main(object):
 
 
 
-if __name__ == '__main__':
-	Main()
