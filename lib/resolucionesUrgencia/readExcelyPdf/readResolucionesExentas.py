@@ -92,7 +92,7 @@ class ReadResolucionesExentas(object):
 
 	def extract_data(self, data):
 		texto = re.sub(r'\n+', ' ', data)
-
+		print("---")
 		print(texto)
 		print()
 
