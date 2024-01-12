@@ -5,3 +5,5 @@
 *.csv
 *._.*
 *.pdf
+webdriver/*
+._.DS_Store

@@ -7,6 +7,7 @@ from lib.resolucionesUrgencia.readExcelyPdf.readCDP import ReadCDP
 from lib.resolucionesUrgencia.readExcelyPdf.readPDF import ReadPDF
 from lib.resolucionesUrgencia.readExcelyPdf.readReporte_resoluciones import ReadReporte_resoluciones
 from lib.resolucionesUrgencia.readExcelyPdf.readResolucionesExentas import ReadResolucionesExentas
+from lib.resolucionesUrgencia.readExcelyPdf.descargaRAM import DescargaRAM
 
 
 class ResolucionesUrgencia(Fuente):
@@ -16,12 +17,7 @@ class ResolucionesUrgencia(Fuente):
 		datos = self.datos
 
 		ReadCDP(datos)
-		#ReadPDF()
-		#ReadReporte_resoluciones(datos)
+		ReadReporte_resoluciones(datos)
 		ReadResolucionesExentas()
-
-
-
-		# main()
-
-		#Informes()
+		DescargaRAM(datos)
+		ReadPDF()

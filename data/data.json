@@ -1,5 +1,5 @@
 {
-	"webdriver_path"            : "..//mejorninez//webdriver//chromedriver",
+	"webdriver_path"            : "..//convenios_y_transferencias//webdriver//chromedriver",
 
 	"fichero"                   : "/Users/hectorCeballos/Downloads/Cartera Financiera Presupuestaria - Devengo*.xlsx",
 	"mover_fichero_a"           : "/Users/hectorCeballos/documents/desarrollo/automaton/input_excel",

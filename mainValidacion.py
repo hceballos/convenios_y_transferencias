@@ -44,7 +44,7 @@ from lib.resolucionesUrgencia.resolucionesUrgencia import ResolucionesUrgencia
 from lib.plazoDeLaDeuda import PlazoDeLaDeuda
 import time
 
-json_path = r'../mejorninez/data/data.json'
+json_path = r'../convenios_y_transferencias/data/data.json'
 
 if __name__ == '__main__':
 

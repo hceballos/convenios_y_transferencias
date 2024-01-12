@@ -28,6 +28,27 @@ class ReadResolucionesExentas(object):
 		else:
 			return "No se encontró la secuencia específica en la cadena."
 
+
+	def getMes(self, texto):
+		patron = r"\d{11}(\d{2})"
+		resultado = re.search(patron, texto)
+		if resultado:
+			numeros_entre = resultado.group(1)
+			return numeros_entre
+		else:
+			return "No se encontró la secuencia específica en la cadena."
+
+
+	def getAnio(self, texto):
+		patron = r"\d{7}(\d{4})"
+		resultado = re.search(patron, texto)
+		if resultado:
+			numeros_entre = resultado.group(1)
+			return numeros_entre
+		else:
+			return "No se encontró la secuencia específica en la cadena."
+
+
 	def getProyectoDenominado(self, texto):
 		patron = r'PROYECTO\s+[\n\s]*DENOMINADO\s+[“\'"](.*?)[”\'"]'
 		texto = texto.replace('\n', ' ')
@@ -84,7 +105,7 @@ class ReadResolucionesExentas(object):
 				print()
 				self.extract_data(data)  # Llamada a la función para procesar los datos y almacenarlos en data_list
 
-		df = pd.DataFrame(self.data_list, columns=["folio", "proyecto", "mesAtencion", "proyectoDenominado", "resolucionExenta", "cdp", "plazasAtendidas"])
+		df = pd.DataFrame(self.data_list, columns=["folio", "proyecto", "mesAtencion", "mes", "anio", "proyectoDenominado", "resolucionExenta", "cdp", "plazasAtendidas"])
 		
 		print(df)
 		database = Database()
@@ -92,7 +113,6 @@ class ReadResolucionesExentas(object):
 
 	def extract_data(self, data):
 		texto = re.sub(r'\n+', ' ', data)
-		print("---")
 		print(texto)
 		print()
 
@@ -104,6 +124,17 @@ class ReadResolucionesExentas(object):
 
 		mesAtencion = self.getMesAtencion(texto)
 		print("MesAtencion 		: ", mesAtencion)
+
+
+
+
+		mes = self.getMes(texto)
+		print("Mes 			: ", mes)
+
+		anio = self.getAnio(texto)
+		print("Anio			: ", anio)
+
+
 
 
 		proyectoDenominado = self.getProyectoDenominado(texto)
@@ -118,4 +149,7 @@ class ReadResolucionesExentas(object):
 		plazasAtendidas = self.getPlazasAtendidas(texto)
 		print("Plazas Atendidas 	: ", plazasAtendidas)
 
-		self.data_list.append([folio, proyecto, mesAtencion, proyectoDenominado, resolucionExenta, cdp, plazasAtendidas])
+		self.data_list.append([folio, proyecto, mesAtencion, mes, anio, proyectoDenominado, resolucionExenta, cdp, plazasAtendidas])
+
+
+
