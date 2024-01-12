@@ -16,8 +16,8 @@ class ResolucionesUrgencia(Fuente):
 		Fuente.__init__(self, json_path)
 		datos = self.datos
 
-		ReadCDP(datos)
-		ReadReporte_resoluciones(datos)
-		ReadResolucionesExentas()
-		DescargaRAM(datos)
+		# ReadCDP(datos)
+		# ReadReporte_resoluciones(datos)
+		# ReadResolucionesExentas()
+		# DescargaRAM(datos)
 		ReadPDF()

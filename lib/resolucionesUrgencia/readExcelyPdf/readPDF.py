@@ -1,6 +1,9 @@
 from PyPDF2 import PdfReader
 import glob
 import re
+import pandas as pd
+from lib.resolucionesUrgencia.database.database import Database
+
 
 class ReadPDF(object):
 
@@ -8,10 +11,17 @@ class ReadPDF(object):
 		folio = re.findall(r'\d{15}[AMU]\d{5}', data)
 		return folio[0]
 
-	def getFechas(self, data):
+	def getFechaInicio(self, data):
 		Fechas = re.findall(r'\b\d{2}\/\d{2}\/\d{4}\b', data)
 		if len(Fechas) >= 2:
-			return Fechas[0], Fechas[1]
+			return Fechas[0]
+		else:
+			print("No se encontraron suficientes fechas.")
+
+	def getFechaTermino(self, data):
+		Fechas = re.findall(r'\b\d{2}\/\d{2}\/\d{4}\b', data)
+		if len(Fechas) >= 2:
+			return Fechas[1]
 		else:
 			print("No se encontraron suficientes fechas.")
 
@@ -38,6 +48,8 @@ class ReadPDF(object):
 		self.process_pdfs()
 
 	def process_pdfs(self):
+		self.data_list = []
+
 		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/pdfs/*.pdf', recursive=True):
 			print('Procesando: ', f)
 			with open(f, 'rb') as archivo_pdf:
@@ -50,17 +62,22 @@ class ReadPDF(object):
 					data += texto + "\n"
 				print()
 				self.extract_data(data)
+		pdf = pd.DataFrame(self.data_list, columns=["folio", "fechaInicio", "fechaTermino", "plazas_convenidas", "plazas_atendidas"])
+		print(pdf)
+		database = Database()
+		database.crear_PDF(pdf)
+
 
 	def extract_data(self, data):
-		# print(data)
-
-
 
 		folio = self.getFolio(data)
 		print("Folio encontrado x :", folio)
 
-		fechas = self.getFechas(data)
-		print("Fechas encontradas:", fechas[0], fechas[1])
+		fechaInicio = self.getFechaInicio(data)
+		print("Fechas encontradas:", fechaInicio)
+
+		fechaTermino = self.getFechaTermino(data)
+		print("Fechas encontradas:", fechaTermino)
 
 		plazas_convenidas = self.getPlazas_convenidas(data)
 		print("Plazas Convenidas:", plazas_convenidas)
@@ -68,5 +85,6 @@ class ReadPDF(object):
 		plazas_atendidas = self.getPlazas_atendidas(data)
 		print("Plazas Atendidas:", plazas_atendidas)
 
+		self.data_list.append([folio, fechaInicio, fechaTermino, plazas_convenidas, plazas_atendidas])
 
 
