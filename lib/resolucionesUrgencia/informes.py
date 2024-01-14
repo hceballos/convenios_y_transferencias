@@ -8,7 +8,7 @@ import xlsxwriter
 import glob
 import os
 from datetime import datetime
-from lib.centralizacion.analisis.analisis import Analisis
+from lib.resolucionesUrgencia.analisis.analisis import Analisis
 
 
 class Informes(object):
@@ -34,18 +34,18 @@ class Informes(object):
 
 	def __init__(self):
 		
-		writer = pd.ExcelWriter(r'./output/Centralizacion.xlsx', engine='xlsxwriter',options={'strings_to_urls': False})
-		cnx = sqlite3.connect('centralizacion.db')
+		writer = pd.ExcelWriter(r'./output/resolucionesUrgencia.xlsx', engine='xlsxwriter',options={'strings_to_urls': False})
+		cnx = sqlite3.connect('resolucionesUrgencia.db')
 
-		for f in glob.glob('./lib/centralizacion/querys/*.txt', recursive=True):
+		for f in glob.glob('./lib/resolucionesUrgencia/querys/*.txt', recursive=True):
 			nombre_archivo, _ = os.path.splitext(os.path.basename(f))
-			# print(nombre_archivo)
-			# if nombre_archivo == 'rendicionDeCuentas':
+			print("================= >>>>>>> ", nombre_archivo)
+			#if nombre_archivo == 'rendicionDeCuentas':
 			self.rendicionDeCuentas(writer, cnx, nombre_archivo, f)
 
 		# Obtener el objeto workbook y la hoja de trabajo
 		workbook = writer.book
-		worksheet = writer.sheets['5.mallaTodosLosPagos']
+		worksheet = writer.sheets['Analisis Resoluciones Urgencias']
 
 		# Agregar formato a cada columna
 		rojo 	= workbook.add_format({'bg_color': '#FFC7CE', 'font_color': '#9C0006'})
@@ -53,14 +53,10 @@ class Informes(object):
 		azul 	= workbook.add_format({'bg_color': '#BDD7EE', 'font_color': '#1F497D'})
 		beige 	= workbook.add_format({'bg_color': '#eee9bd', 'font_color': '#1F497D'})
 
-		worksheet.set_column('B:B', 	None, verde)
-		worksheet.set_column('D:D', 	None, verde)
-		worksheet.set_column('G:G', 	None, verde)
-		worksheet.set_column('Y:Y', 	None, verde)
-		worksheet.set_column('BA:BC', 	None, verde)
-		#worksheet.set_column('BA:BA', 	None, beige)
-		worksheet.set_column('BE:BE', 	None, beige)
-
+		worksheet.set_column('A:D', 	None, verde)
+		worksheet.set_column('E:L', 	None, azul)
+		worksheet.set_column('M:O', 	None, beige)
+		# worksheet.set_column('AP:AP', 	None, verde)
 
 		# Fijar la fila superior
 		worksheet.freeze_panes(1, 0)  # Fijar la fila superior

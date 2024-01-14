@@ -5,35 +5,102 @@ import re
 
 class Linea2401003:
 
-	def __init__(self, dataframe):
+	def __init__(self, df):
 
-		# print(dataframe)
+		#PRO
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRO'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRO'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
-		# Aplicar la condición y asignar valores a la columna 'Recalculado'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'OTROSPAGOS'), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRO'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRO'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
 
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'OTROSPAGOS'	), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRO'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRO'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'OTROSPAGOS'	), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRO'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRO'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		#PER
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PER'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PER'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PER'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PER'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PER'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PER'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PER'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PER'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		#PRO
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRO'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRO'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRO'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRO'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRO'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRO'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRO'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRO'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+	
+		#PER
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PER'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PER'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PER'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PER'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PER'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PER'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PER'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PER'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		#PRE
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRE'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRE'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRE'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRE'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRE'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRE'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRE'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRE'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		#PRD
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRD'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PRD'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRD'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PRD'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRD'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PRD'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRD'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PRD'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		#PPE
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PPE'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PPE'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PPE'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'PPE'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PPE'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'PPE'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PPE'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401003') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PPE'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
 
-		# mask01 = dataframe['cuenta'] == '2401003'
-		# dataframe.loc[mask01, 'Recalculado'] 	= (dataframe[mask01]['plazas_atendidas'] * dataframe[mask01]['factor_variable'] * (1 + dataframe[mask01]['asignacion_zona'] / 100) * dataframe[mask01]['uss']).round().astype(int)
-		# dataframe.loc[mask01, 'diferencia'] 	= dataframe[mask01]['monto_liquido_pagado'] - round(dataframe[mask01]['plazas_atendidas'] * dataframe[mask01]['factor_variable'] * (1 + dataframe[mask01]['asignacion_zona'] / 100.0) * dataframe[mask01]['uss'])
-		
-		print("El número total de filas es:", len(dataframe))
+		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
+		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
 
 		database = Database()
-		database.crear_transferencias(dataframe)
+		database.crear_transferencias(df)

@@ -1,0 +1,4 @@
+SELECT
+	pdf.*
+FROM
+	pdf

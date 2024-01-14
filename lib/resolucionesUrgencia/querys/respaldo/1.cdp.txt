@@ -1,0 +1,4 @@
+SELECT
+	cdp.*
+FROM
+	cdp

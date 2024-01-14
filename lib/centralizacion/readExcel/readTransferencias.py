@@ -7,17 +7,12 @@ from lib.centralizacion.lineasAccion.Linea2401003.linea2401003 import Linea24010
 from lib.centralizacion.lineasAccion.Linea2401004.linea2401004 import Linea2401004
 from lib.centralizacion.lineasAccion.Linea2401005.linea2401005 import Linea2401005
 from lib.centralizacion.lineasAccion.Linea2401006.linea2401006 import Linea2401006
-
-#from lib.centralizacion.lineasAccion.Linea2401003 import linea2401003
-#from lib.centralizacion.lineasAccion.Linea2401004 import linea2401004
-#from lib.centralizacion.lineasAccion.Linea2401005 import linea2401005
-#from lib.centralizacion.lineasAccion.Linea2401006 import linea2401006
 import re
 
 class ReadTransferencias:
 
 	def __init__(self, datos):
-		self.datos = datos
+		#self.datos = datos
 
 		transferencias = pd.DataFrame()
 		for f in glob.glob('./input_excel/centralizacion/transferencias/*.xlsx', recursive=True):
@@ -37,78 +32,26 @@ class ReadTransferencias:
 		transferencias.loc[transferencias['proyecto'].str.contains('ESCI'), 'proyecto'] 	= 'PEE'
 		transferencias['modelox'] = transferencias['proyecto'].str.split(r'\s|-').str[0]
 
-		cambios_de_nombre 				 = {'EMG': '2401004', 'CLA': '2401004', 'CPE': '2401004', 'DAM': '2401001', 'DCE': '2401001', 'FAE': '2401004', 'FAS': '2401004', 'FPA': '2401002', 'OPD': '2401006', 'PAD': '2401002','PAS': '2401002','PDC': '2401002','PDE': '2401002','PEC': '2401002','PEE': '2401002','PER': '2401003',  'PIB': '2401002', 'PIE': '2401002', 'PPC': '2401002', 'PPE': '2401003', 'PPF': '2401002', 'PRD': '2401003', 'PRE': '2401003', 'PRI': '2401005', 'PRM': '2401002','PRO': '2401003','RAD': '2401004','RDD': '2401004','RDG': '2401004','RDS': '2401004','REM': '2401004','REN': '2401004', 'RLP': '2401004', 'RMA': '2401004', 'RPA': '2401004', 'RPE': '2401004', 'RPF': '2401004', 'RPL': '2401004', 'RPM': '2401004', 'RPP': '2401004', 'RSP': '2401004', 'RVA': '2401004', 'RVT': '2401004'}
-		transferencias['cuenta'] 		 = transferencias['modelox'].replace(cambios_de_nombre)
-		transferencias['modificaciones'] = transferencias['folio'].str[-7]
+		cambios_de_nombre 				 		= {'EMG': '2401004', 'CLA': '2401004', 'CPE': '2401004', 'DAM': '2401001', 'DCE': '2401001', 'FAE': '2401004', 'FAS': '2401004', 'FPA': '2401002', 'OPD': '2401006', 'PAD': '2401002','PAS': '2401002','PDC': '2401002','PDE': '2401002','PEC': '2401002','PEE': '2401002','PER': '2401003',  'PIB': '2401002', 'PIE': '2401002', 'PPC': '2401002', 'PPE': '2401003', 'PPF': '2401002', 'PRD': '2401003', 'PRE': '2401003', 'PRI': '2401005', 'PRM': '2401002','PRO': '2401003','RAD': '2401004','RDD': '2401004','RDG': '2401004','RDS': '2401004','REM': '2401004','REN': '2401004', 'RLP': '2401004', 'RMA': '2401004', 'RPA': '2401004', 'RPE': '2401004', 'RPF': '2401004', 'RPL': '2401004', 'RPM': '2401004', 'RPP': '2401004', 'RSP': '2401004', 'RVA': '2401004', 'RVT': '2401004'}
+		transferencias['cuenta'] 		 		= transferencias['modelox'].replace(cambios_de_nombre)
+		transferencias['modificaciones'] 		= transferencias['folio'].str[-7]
 		transferencias[['plazas_atendidas', 'factor_variable', 'asignacion_zona', 'numero_plazas', 'uss']] = transferencias[['plazas_atendidas', 'factor_variable', 'asignacion_zona', 'numero_plazas' ,'uss']].fillna(0)
-		transferencias['uss'] 			 = transferencias['uss'].astype(int)		
-		#print("El número total de filas es:", len(transferencias))
+		transferencias['uss'] 			 		= transferencias['uss'].astype(int)
+		transferencias['plazas_convenidas']		= transferencias['plazas_convenidas'].astype(int)		
+		transferencias['plazas_atendidas']		= transferencias['plazas_atendidas'].astype(int)		
+		transferencias['asignacion_zona'] 		= transferencias['asignacion_zona'] / 100
+		transferencias['factor_cobertura']		= transferencias['factor_cobertura'] / 100
+		transferencias['factor_cvf']			= transferencias['factor_cvf'] / 100
+		transferencias['factor_edad']			= transferencias['factor_edad'] / 100
+		transferencias['factor_complejidad']	= transferencias['factor_complejidad'] / 100
+		transferencias['factor_discapacidad']	= transferencias['factor_discapacidad'] / 100
+		transferencias['factor_uss']			= transferencias['factor_uss'] / 100
+		#transferencias['Deuda']				= 0	
+		transferencias['Monto Convenio']		= 0		
 
-
-		database = Database()
-		database.crear_transferencias(transferencias)
-
-
-		# Linea2401001(transferencias[transferencias['cuenta'] == '2401001'])
-		# Linea2401002(transferencias[transferencias['cuenta'] == '2401002'])
-		# Linea2401003(transferencias[transferencias['cuenta'] == '2401003'])
-		# Linea2401004(transferencias[transferencias['cuenta'] == '2401004'])
-		# Linea2401005(transferencias[transferencias['cuenta'] == '2401005'])
-		# Linea2401006(transferencias[transferencias['cuenta'] == '2401006'])
-
-
-		"""
-		mask01 = transferencias['cuenta'] == '2401001'
-		transferencias.loc[mask01, 'Recalculado'] = (transferencias[mask01]['plazas_atendidas'] * transferencias[mask01]['factor_variable'] * (1 + transferencias[mask01]['asignacion_zona'] / 100) * transferencias[mask01]['uss']).round().astype(int)
-		transferencias.loc[mask01, 'diferencia'] = transferencias[mask01]['monto_liquido_pagado'] - round(transferencias[mask01]['plazas_atendidas'] * transferencias[mask01]['factor_variable'] * (1 + transferencias[mask01]['asignacion_zona'] / 100.0) * transferencias[mask01]['uss'])
-		
-
-		#mask02 = transferencias['cuenta'] == '2401002'
-		mask02 = (transferencias['cuenta'] == '2401002') & transferencias['tipo_pago'].str.contains('80 BIS')
-		if any(transferencias.loc[mask02, 'tipo_pago'].str.contains('80 BIS').values):
-			transferencias.loc[mask02, 'Recalculado'] = (transferencias[mask02]['numero_plazas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']).round().astype(int)
-			transferencias.loc[mask02, 'diferencia'] = transferencias[mask02]['monto_liquido_pagado'] - round((transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']))
-		else:
-			transferencias.loc[mask02, 'Recalculado'] = (transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']).round().astype(int)
-			transferencias.loc[mask02, 'diferencia'] = transferencias[mask02]['monto_liquido_pagado'] - round((transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']))
-
-
-		mask02 = (transferencias['cuenta'] == '2401002') & transferencias['tipo_pago'].str.contains('80 BIS')
-
-		if any(mask02):
-			print("SI ")
-			transferencias.loc[mask02, 'Recalculado'] = "si"
-
-			# transferencias.loc[mask02, 'Recalculado'] = ((transferencias[mask02]['numero_plazas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss'])).round().astype(int)
-			# transferencias.loc[mask02, 'diferencia'] = transferencias[mask02]['monto_liquido_pagado'] - round((transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']))
-		
-
-		else:
-			transferencias.loc[mask02, 'Recalculado'] = "else"
-			# transferencias.loc[mask02, 'Recalculado'] = ((transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss'])).round().astype(int)
-			# transferencias.loc[mask02, 'diferencia'] = transferencias[mask02]['monto_liquido_pagado'] - round((transferencias[mask02]['plazas_atendidas'] * transferencias[mask02]['factor_variable'] * (1 + transferencias[mask02]['asignacion_zona'] / 100) * transferencias[mask02]['uss']))
-
-		"""
-		
-		# nuevo_df = transferencias[transferencias['cuenta'] == '2401001']
-
-
-
-
-
-		# print(nuevo_df)
-
-		# Aplicar la condición y asignar valores a la columna 'Recalculado'
-		# transferencias.loc[(transferencias['cuenta'] == '2401002') & (transferencias['tipo_pago'] == 'ANTICIPO'), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[(transferencias['cuenta'] == '2401002') & (transferencias['tipo_pago'] == '80 BIS'), 'Recalculado'] = '80 BIS'
-		# transferencias.loc[(transferencias['cuenta'] == '2401002') & (transferencias['tipo_pago'] == 'URGENCIA'), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[(transferencias['cuenta'] == '2401002') & (transferencias['tipo_pago'] == 'EMERGENCIA'), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[(transferencias['cuenta'] == '2401002') & (transferencias['tipo_pago'] == 'OTROS PAGOS'), 'Recalculado'] = 'OTROS PAGOS'
-
-
-
-
-		# transferencias['Analisis']      = 'Pendiente'
-
-		# database = Database()
-		# database.crear_transferencias(nuevo_df)
+		Linea2401001(transferencias)
+		#Linea2401002(transferencias)
+		#Linea2401003(transferencias)
+		#Linea2401004(transferencias)
+		#Linea2401005(transferencias)
+		#Linea2401006(transferencias)

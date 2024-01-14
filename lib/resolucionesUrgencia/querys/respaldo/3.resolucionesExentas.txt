@@ -1,0 +1,4 @@
+SELECT
+	resolucionesExentas.*
+FROM
+	resolucionesExentas

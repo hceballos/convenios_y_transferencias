@@ -5,35 +5,23 @@ import re
 
 class Linea2401006:
 
-	def __init__(self, dataframe):
+	def __init__(self, df):
 
-		# print(dataframe)
+		#OPD
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'OPD'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'OPD'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
-		# Aplicar la condición y asignar valores a la columna 'Recalculado'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '481') & (transferencias['tipo_pago'] == 'OTROSPAGOS'), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'OPD'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'OPD'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
 
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '19') & (transferencias['tipo_pago'] == 'OTROSPAGOS'	), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'OPD'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'OPD'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'ANTICIPO'	), 'Recalculado'] = 'ANTICIPO'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == '80BIS'		), 'Recalculado'] = '80BIS'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'URGENCIA'	), 'Recalculado'] = 'URGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'EMERGENCIA'	), 'Recalculado'] = 'EMERGENCIA'
-		# transferencias.loc[	(transferencias['decreto'] == '07') & (transferencias['tipo_pago'] == 'OTROSPAGOS'	), 'Recalculado'] = 'OTROSPAGOS'
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'OPD'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401006') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'OPD'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
-
-		# mask01 = dataframe['cuenta'] == '2401006'
-		# dataframe.loc[mask01, 'Recalculado'] 	= (dataframe[mask01]['plazas_atendidas'] * dataframe[mask01]['factor_variable'] * (1 + dataframe[mask01]['asignacion_zona'] / 100) * dataframe[mask01]['uss']).round().astype(int)
-		# dataframe.loc[mask01, 'diferencia'] 	= dataframe[mask01]['monto_liquido_pagado'] - round(dataframe[mask01]['plazas_atendidas'] * dataframe[mask01]['factor_variable'] * (1 + dataframe[mask01]['asignacion_zona'] / 100.0) * dataframe[mask01]['uss'])
-		
-		print("El número total de filas es:", len(dataframe))
+		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
+		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
 
 		database = Database()
-		database.crear_transferencias(dataframe)
+		database.crear_transferencias(df)

@@ -14,12 +14,6 @@ class Analisis(object):
 	def analisis_Rendiciones(self, df):
 		df['dias_transcurridos'] = self.calcular_dias_transcurridos(df)
 
-
-
-
-
-
-
 		opd = (df['modelox'].str.startswith('OPD'))
 		BIS = (df['tipo_pago'] == '80 BIS')
 		def calcular_plazas(row):

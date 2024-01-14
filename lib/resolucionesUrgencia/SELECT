@@ -1,0 +1,49 @@
+SELECT
+	c.'N° CDP',
+	c.'CODIGO',
+	c.'PLAZAS' ,
+	c.'MONTO TOTAL',
+	r.*
+FROM
+	(SELECT 
+		cdp.* 
+	FROM 
+		cdp
+	) c
+
+	LEFT JOIN (
+
+		SELECT 
+			resolucionesExentas.'folio',
+			resolucionesExentas.'proyecto',
+			resolucionesExentas.'mesAtencion',
+			resolucionesExentas.'mes',
+			resolucionesExentas.'anio',
+			resolucionesExentas.'resolucionExenta',
+			resolucionesExentas.'cdp',
+			resolucionesExentas.'plazasAtendidas'
+		FROM 
+			resolucionesExentas
+
+	) r
+	ON c.'N° CDP' = r.'cdp'
+	and c.'CODIGO' = r.'proyecto'
+	--and c.'PLAZAS' = r.'plazasAtendidas'
+	
+	LEFT JOIN (
+
+		SELECT 
+			pdf.'folio',
+			pdf.'plazasconvenidas',
+			pdf.'plazasatendidas'
+		FROM 
+			pdf
+
+	) r
+	ON c.'N° CDP' = r.'cdp'
+	and c.'CODIGO' = r.'proyecto'
+	--and c.'PLAZAS' = r.'plazasAtendidas'
+
+
+WHERE
+	c.'CODIGO' = r.'proyecto'

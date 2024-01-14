@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader
 import glob
 import pandas as pd
 from lib.resolucionesUrgencia.database.database import Database
+import re
 
 class ReadCDP(object):
 
@@ -16,6 +17,12 @@ class ReadCDP(object):
 				usecols = ['N° CDP', 'PROYECTO', 'NUEVO PROYECTO EMG', 'CODIGO', 'CODIGO LINEA DE ACCION', 'MODALIDAD', 'MONTO TOTAL', 'PLAZAS', 'OBSERVACIONES', 'MEMO', 'SOLICITADO', 'FECHA RECEPCION']
 			)
 			cdp = cdp.append(datos_excel, ignore_index=True)
+
+		#match = re.search(r'\b\d+\b', str(cdp['PLAZAS']))
+		# int(match.group()) if match else None
+
+		#cdp['PLAZAS'] = int(match.group()) if match else None
+
 
 		#print(cdp)
 		database = Database()
