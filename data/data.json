@@ -25,6 +25,10 @@
 	"readRetenciones"               : "../mejorninez/input_excel/retenciones/*/*/Retenciones*",
 	"readPagoManual"                : "../mejorninez/input_excel/pagoManual/*",
 	"analisisRetenidos" 			: "../mejorninez/input_excel/AnalisisRetenidos/*",
+	"contraloria" 					: "../convenios_y_transferencias/input_excel/contraloria/*",
+
+
+
 	"CompromisoCarteraFinanciera"   : "../mejorninez/input_excel/Sigfe/CompromisoCarteraFinanciera/*",
 	"DevengoCarteraFinanciera"      : "../mejorninez/input_excel/Sigfe/DevengoCarteraFinanciera/*",
 	"DisponibilidadDeCompromiso"    : "../mejorninez/input_excel/Sigfe/DisponibilidadCompromisosPresupuestarios/*",
