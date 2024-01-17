@@ -67,9 +67,18 @@ class DescargaRAM(Fuente):
 
 		self.pendientes(cnx, query, driver, datos)
 
-	def pendientes(self, cnx, query, driver, datos):
-		for index, row in query.iterrows():
-			envioInforProyecto = Envio_Informacion()
-			driver.get("https://a1.sis.mejorninez.cl/mod_ninos/cierre_resumenatencion.aspx?sw=4&codinst="+row['proyecto']+"&M="+row['mes']+"&A="+row['anio']+"")
-			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "Imb002"))).click()
-		driver.quit()
+		def pendientes(self, cnx, query, driver, datos):
+			print(query)
+			print("====================== pendientes")
+			for index, row in query.iterrows():
+				print("==== ", row )
+				envioInforProyecto = Envio_Informacion()
+				driver.get(f"https://a1.sis.mejorninez.cl/mod_ninos/cierre_resumenatencion.aspx?sw=4&codinst={row['proyecto']}&M={row['mes']}&A={row['anio']}")
+				WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "Imb002"))).click()
+			driver.quit()
+
+
+
+
+
+
