@@ -25,7 +25,7 @@ from lib.elementos import Envio_Informacion, Click
 
 class Setup():
 
-	def getMac(self):
+	def getMac(self, datos):
 		chrome_options = webdriver.ChromeOptions()
 		prefs = {
 			'download.default_directory': '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/pdfs',
@@ -49,15 +49,18 @@ class Setup():
 		envioInformacion.envio_Informacion_by_name(driver, "password", "Mejorninez")
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "ingresar"))).click()
 		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Pagos/wf_InformePagos.aspx")
-		return driver
+		time.sleep(5)
+		#print(datos)
+		#return driver
+		return 
 
 
 	def __init__(self, datos):
-		self.datos = datos
+		#self.datos = datos
 
 		sistema_operativo = platform.system()
 		if sistema_operativo == 'Darwin':
 			print("Estás utilizando un sistema Mac")
-			driver = self.getMac()
+			driver = self.getMac(datos)
 		elif sistema_operativo == 'Windows':
 			print("Estás utilizando un sistema Windows.")
