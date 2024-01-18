@@ -39,7 +39,7 @@ class Centralizacion(Fuente):
 		# ReadRetenidos(datos)
 		ReadReporteDeuda(datos)
 		# ReadRendicionDeCuentas(datos)
-		# ReadtodasLasFES(datos)
+		ReadtodasLasFES(datos)
 
 		# main()
 

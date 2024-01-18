@@ -22,8 +22,11 @@ class ReadExcel():
 			df = pd.read_excel(f, converters={ 'MES_ATENCION': str, 'COD_PROYECTO': str} )
 			devengo = devengo.append(df,ignore_index=True)
 
-		devengo['unico']  		 =  devengo['COD_PROYECTO'] + devengo['MES_ATENCION']
-		devengo['Analisis'] 	 = 'Pendiente'
+		devengo['mes'] 			= devengo['MES_ATENCION'].astype(str).apply(lambda x: str(re.search(r'(\d{2})$', x).group(1)))
+		devengo['anio'] 		= devengo['MES_ATENCION'].astype(str).apply(lambda x: str(re.search(r'^(\d{4})', x).group(1)))
+
+		devengo['unico']		= devengo['COD_PROYECTO'] + devengo['MES_ATENCION']
+		devengo['Analisis']		= 'Pendiente'
 		self.crear_database(devengo)
 
 	def crear_database(self, devengo):

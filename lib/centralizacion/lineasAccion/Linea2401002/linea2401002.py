@@ -215,6 +215,20 @@ class Linea2401002:
 		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PPE'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
 		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'PPE'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
+		#AFT	
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'AFT'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'AFT'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'AFT'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['numero_plazas']
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == '80 BIS') & (df['modelox'] == 'AFT'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['numero_plazas']
+
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'AFT'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'AFT'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'AFT'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
+		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'AFT'), 'Monto Variable']		=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
+		#AFT
+
 		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
 		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
 

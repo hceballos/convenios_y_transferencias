@@ -42,7 +42,8 @@ class Contraloria(Fuente):
 		print("Has seleccionado la opción 1.")
 		contenido_archivo = self.descargar_archivo(url_archivo_github)
 		if contenido_archivo:
-			self.actualizar_archivo_local(contenido_archivo, ruta_local_archivo)
+			pass
+			#self.actualizar_archivo_local(contenido_archivo, ruta_local_archivo)	# Descarga archivo o carpeta desde github
 		ReadExcel(datos)
 
 	def opcion2(self, datos):

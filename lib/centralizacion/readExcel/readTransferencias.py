@@ -32,7 +32,7 @@ class ReadTransferencias:
 		transferencias.loc[transferencias['proyecto'].str.contains('ESCI'), 'proyecto'] 	= 'PEE'
 		transferencias['modelox'] = transferencias['proyecto'].str.split(r'\s|-').str[0]
 
-		cambios_de_nombre 				 		= {'EMG': '2401004', 'CLA': '2401004', 'CPE': '2401004', 'DAM': '2401001', 'DCE': '2401001', 'FAE': '2401004', 'FAS': '2401004', 'FPA': '2401002', 'OPD': '2401006', 'PAD': '2401002','PAS': '2401002','PDC': '2401002','PDE': '2401002','PEC': '2401002','PEE': '2401002','PER': '2401003',  'PIB': '2401002', 'PIE': '2401002', 'PPC': '2401002', 'PPE': '2401003', 'PPF': '2401002', 'PRD': '2401003', 'PRE': '2401003', 'PRI': '2401005', 'PRM': '2401002','PRO': '2401003','RAD': '2401004','RDD': '2401004','RDG': '2401004','RDS': '2401004','REM': '2401004','REN': '2401004', 'RLP': '2401004', 'RMA': '2401004', 'RPA': '2401004', 'RPE': '2401004', 'RPF': '2401004', 'RPL': '2401004', 'RPM': '2401004', 'RPP': '2401004', 'RSP': '2401004', 'RVA': '2401004', 'RVT': '2401004'}
+		cambios_de_nombre 				 		= {'EMG': '2401004', 'PF': '2401003', 'AFT': '2401002', 'CLA': '2401004', 'CPE': '2401004', 'DAM': '2401001', 'DCE': '2401001', 'FAE': '2401004', 'FAS': '2401004', 'FPA': '2401002', 'OPD': '2401006', 'PAD': '2401002','PAS': '2401002','PDC': '2401002','PDE': '2401002','PEC': '2401002','PEE': '2401002','PER': '2401003',  'PIB': '2401002', 'PIE': '2401002', 'PPC': '2401002', 'PPE': '2401003', 'PPF': '2401002', 'PRD': '2401003', 'PRE': '2401003', 'PRI': '2401005', 'PRM': '2401002','PRO': '2401003','RAD': '2401004','RDD': '2401004','RDG': '2401004','RDS': '2401004','REM': '2401004','REN': '2401004', 'RLP': '2401004', 'RMA': '2401004', 'RPA': '2401004', 'RPE': '2401004', 'RPF': '2401004', 'RPL': '2401004', 'RPM': '2401004', 'RPP': '2401004', 'RSP': '2401004', 'RVA': '2401004', 'RVT': '2401004'}
 		transferencias['cuenta'] 		 		= transferencias['modelox'].replace(cambios_de_nombre)
 		transferencias['modificaciones'] 		= transferencias['folio'].str[-7]
 		transferencias[['plazas_atendidas', 'factor_variable', 'asignacion_zona', 'numero_plazas', 'uss']] = transferencias[['plazas_atendidas', 'factor_variable', 'asignacion_zona', 'numero_plazas' ,'uss']].fillna(0)
@@ -50,8 +50,8 @@ class ReadTransferencias:
 		transferencias['Monto Convenio']		= 0		
 
 		Linea2401001(transferencias)
-		#Linea2401002(transferencias)
-		#Linea2401003(transferencias)
-		#Linea2401004(transferencias)
-		#Linea2401005(transferencias)
-		#Linea2401006(transferencias)
+		Linea2401002(transferencias)
+		Linea2401003(transferencias)
+		Linea2401004(transferencias)
+		Linea2401005(transferencias)
+		Linea2401006(transferencias)

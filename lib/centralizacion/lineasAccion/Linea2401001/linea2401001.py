@@ -35,7 +35,7 @@ class Linea2401001:
 
 		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
 		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
-		print(df.columns)
+		# print(df.columns)
 
 		database = Database()
 		database.crear_transferencias(df)

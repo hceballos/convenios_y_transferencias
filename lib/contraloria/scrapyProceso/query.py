@@ -30,12 +30,11 @@ class Query(object):
 		cnx = sqlite3.connect('contraloria.db')
 		consulta  = " \
 		SELECT \
-			CodProyectos.MES_ATENCION, \
-			CodProyectos.COD_PROYECTO, \
-			CodProyectos.unico, \
-			CodProyectos.Analisis \
+			CodProyectos.* \
 		FROM \
 			CodProyectos \
+		WHERE \
+			CodProyectos.'Analisis' = 'Pendiente' \
 		"
 		query = pd.read_sql_query(consulta, cnx)
 		return query
