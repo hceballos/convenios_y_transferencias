@@ -1,0 +1,38 @@
+SELECT
+	t.*,
+	d.'Monto Cuota',
+	d.'Estado Cuota',
+	f.'nro_dias_Mes'
+FROM		
+		(SELECT 
+			transferencias.* 
+		FROM 
+			transferencias
+		)t
+
+	LEFT JOIN 
+
+		(SELECT
+			DISTINCT(deuda.'unico'),
+			deuda.*
+		FROM
+			deuda
+		WHERE
+		deuda.'Estado Cuota' <> 'Anulado'
+		and deuda.'Estado Cuota' <> 'Transferido'
+		and deuda.'Tipo' = 'Debe'
+		)d
+
+		ON t.'cod_proyecto' = d.'cod_proyecto' 
+		AND t.'numero_mes' = d.'numero_mes'
+		AND t.'Diferencia' = d.'Monto Cuota'
+
+	LEFT JOIN 
+
+		(SELECT
+			fes.*
+		FROM
+			fes
+		)f
+
+		ON t.'Folio' = f.'Folio'

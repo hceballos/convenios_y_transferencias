@@ -34,11 +34,11 @@ class Centralizacion(Fuente):
 		datos = self.datos
 
 		# ReadMalla(datos)
-		# ReadTodosLosPagos(datos)
-		ReadTransferencias(datos)
 		# ReadRetenidos(datos)
-		ReadReporteDeuda(datos)
 		# ReadRendicionDeCuentas(datos)
+		ReadTodosLosPagos(datos)
+		ReadTransferencias(datos)
+		ReadReporteDeuda(datos)
 		ReadtodasLasFES(datos)
 
 		# main()

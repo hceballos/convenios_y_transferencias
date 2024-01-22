@@ -32,6 +32,6 @@ class ReadReporteDeuda:
 
 		deuda['fecha'] 		= pd.to_datetime(deuda['Fecha Vencimiento'], format='%Y-%m-%d %H:%M:%S.%f', errors='coerce')
 		deuda['numero_mes'] = deuda['fecha'].dt.month.map("{:02d}".format)
-
+		deuda['unico'] 		= deuda['unico'] = deuda['cod_proyecto'].astype(str) + deuda['Tipo'] + deuda['numero_mes'].astype(str) + deuda['Estado Cuota']
 		database = Database()
 		database.crear_deuda(deuda)

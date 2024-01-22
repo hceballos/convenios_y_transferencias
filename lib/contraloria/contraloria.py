@@ -21,6 +21,8 @@ import time
 import requests
 from lib.contraloria.readExcel import ReadExcel
 from lib.contraloria.scrapy import Scrapy
+from lib.contraloria.informes import Informes
+
 
 
 class Contraloria(Fuente):
@@ -50,6 +52,12 @@ class Contraloria(Fuente):
 		print("Has seleccionado la opción 2.")
 		Scrapy(datos)
 
+	def opcion3(self):
+		print("Has seleccionado la opción 3.")
+		Informes()
+
+
+
 	def __init__(self, json_path):
 		Fuente.__init__(self, json_path)
 		datos = self.datos
@@ -61,15 +69,18 @@ class Contraloria(Fuente):
 			print("\nMenú:")
 			print("1. Opción 1 : Genera la base de datos")
 			print("2. Opción 2 : Inicia el proceso")
-			print("3. Salir")
+			print("3. Opción 3 : Genera Informe")
+			print("4. Salir")
 
-			seleccion = input("Selecciona una opción (1/2/3): ")
+			seleccion = input("Selecciona una opción (1/2/3/4): ")
 
 			if seleccion == "1":
 				self.opcion1(datos, url_archivo_github, ruta_local_archivo)
 			elif seleccion == "2":
 				self.opcion2(datos)
 			elif seleccion == "3":
+				self.opcion3()				
+			elif seleccion == "4":
 				print("Saliendo del programa. ¡Hasta luego!")
 				break
 			else:

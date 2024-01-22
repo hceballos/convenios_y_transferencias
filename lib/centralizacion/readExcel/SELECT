@@ -1,0 +1,50 @@
+SELECT
+	t.*,
+	d.'Monto Cuota' as 'Deuda',
+	d.'Estado Cuota',
+	f.'nro_dias_Mes',
+	a.'FECHA DE PAGO'
+FROM		
+		(SELECT 
+			transferencias.* 
+		FROM 
+			transferencias
+		)t
+
+	LEFT JOIN 
+
+		(SELECT
+			deuda.*
+		FROM
+			deuda
+		WHERE
+		deuda.'Estado Cuota' <> 'Anulado'
+		and deuda.'Estado Cuota' <> 'Transferido'
+		)d
+
+		ON t.'cod_proyecto' = d.'cod_proyecto' 
+		AND t.'numero_mes' = d.'numero_mes'
+
+	LEFT JOIN 
+
+		(SELECT
+			fes.*
+		FROM
+			fes
+		)f
+
+		ON t.'Folio' = f.'Folio'
+
+	LEFT JOIN 
+
+		(SELECT
+			todosLosPagos.*
+		FROM
+			todosLosPagos
+		)a
+
+		ON t.'cod_proyecto'  = a.'cod_proyecto'
+		AND t.'mes_atencion' = a.'mes_atencion'
+		AND t.'tipo_pago'    = a.'tipo_pago'
+
+
