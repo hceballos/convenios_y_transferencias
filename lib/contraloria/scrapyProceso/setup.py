@@ -73,7 +73,49 @@ class Setup():
 
 
 
+	def getWin(self, query):
+		chrome_options = webdriver.ChromeOptions()
+		prefs = {
+			'download.default_directory': '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/resolucionesUrgencia/pdfs',
+			"download.prompt_for_download": False,
+			"download.directory_upgrade": True,
+			"safebrowsing_for_trusted_sources_enabled": False,
+			"safebrowsing.enabled": False
+		}
+		chrome_options.add_experimental_option('prefs', prefs)
+		chrome_options.add_argument('--ignore-certificate-errors')
+		chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+		# chrome_options.binary_location = '..//convenios_y_transferencias//webdriver//chrome-mac//Chromium.app//Contents//MacOS//Chromium'  # Ruta a la versión de Chromium 114.0.5735.90
+		#chrome_options.add_argument('--headless')
+		driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
+		driver.maximize_window()
+		
+		driver.get('https://www.sis.mejorninez.cl/')
+		webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
+		envioInformacion = Envio_Informacion()
+		envioInformacion.envio_Informacion_by_name(driver, "usuario", "hceballos@servicioproteccion.gob.cl")
+		envioInformacion.envio_Informacion_by_name(driver, "password", "Mejorninez")
+		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "ingresar"))).click()
+		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Pagos/wf_InformePagos.aspx")
+		time.sleep(5)
 
+		for index, row in query.iterrows():
+			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "lnkLimpiar"))).click()  # BOTON BUSCAR
+			envioInforProyecto = Envio_Informacion()
+			time.sleep(2.5)
+			envioInforProyecto.envio_Informacion_by_name(driver, "txtPeriodo", row['MES_ATENCION'])
+
+			time.sleep(1.5)
+			try:
+				envioInforProyecto.envio_Informacion_by_name(driver, "I_ProyectoCodigo$txtCodigo", row['COD_PROYECTO'])
+			except Exception as e:
+				print(f"Error: {e}")
+				envioInforProyecto.envio_Informacion_by_name(driver, "I_ProyectoCodigo$txtCodigo", row['COD_PROYECTO'])
+			time.sleep(1.5)
+			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnBuscarPagos"))).click()  # BOTON BUSCAR
+			time.sleep(2.5)
+		
+			TablaPagos(row, driver)
 
 
 	def __init__(self, query):
@@ -85,3 +127,5 @@ class Setup():
 			driver = self.getMac(query)
 		elif sistema_operativo == 'Windows':
 			print("Estás utilizando un sistema Windows.")
+			driver = self.getWin(query)
+

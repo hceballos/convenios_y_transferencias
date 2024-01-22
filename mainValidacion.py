@@ -167,8 +167,8 @@ if __name__ == '__main__':
 
 	elif args.operation == 'calculoAFE':
 		
-		# Descargas(json_path)
-		ReadExcel(json_path)
+		Descargas(json_path)
+		# ReadExcel(json_path)
 		#Parse()
 		#ParseLevantar()
 
