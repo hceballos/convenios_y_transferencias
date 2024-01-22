@@ -1,8 +1,6 @@
 SELECT
 	t.*,
-	d.'Monto Cuota' as 'Deuda',
-	d.'Estado Cuota',
-	f.'nro_dias_Mes'
+	a.'FECHA DE PAGO'
 FROM		
 		(SELECT 
 			transferencias.* 
@@ -13,23 +11,16 @@ FROM
 	LEFT JOIN 
 
 		(SELECT
-			deuda.*
+		
+		     DISTINCT(cod_proyecto || mes_atencion || tipo_pago) AS concatenated_columns,
+			todosLosPagos.'cod_proyecto',
+			todosLosPagos.'mes_atencion',
+			todosLosPagos.'tipo_pago',
+			todosLosPagos.'FECHA DE PAGO'
 		FROM
-			deuda
-		WHERE
-		deuda.'Estado Cuota' <> 'Anulado'
-		and deuda.'Estado Cuota' <> 'Transferido'
-		)d
+			todosLosPagos
+		)a
 
-	ON t.'cod_proyecto' = d.'cod_proyecto' 
-	AND t.'numero_mes' = d.'numero_mes'
-
-	LEFT JOIN 
-
-		(SELECT
-			fes.*
-		FROM
-			fes
-		)f
-
-	ON t.'Folio' = f.'Folio' 
+		ON t.'cod_proyecto'  = a.'cod_proyecto'
+		AND t.'mes_atencion' = a.'mes_atencion'
+		AND t.'tipo_pago'    = a.'tipo_pago'
