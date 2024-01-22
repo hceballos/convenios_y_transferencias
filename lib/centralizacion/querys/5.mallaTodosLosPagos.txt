@@ -24,3 +24,7 @@ FROM
 		ON t.'cod_proyecto'  = a.'cod_proyecto'
 		AND t.'mes_atencion' = a.'mes_atencion'
 		AND t.'tipo_pago'    = a.'tipo_pago'
+		
+ORDER BY
+	t.cuenta,
+	t.modelox
