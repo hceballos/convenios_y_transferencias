@@ -22,6 +22,7 @@ from lib.centralizacion.readExcel.readReporteDeuda import ReadReporteDeuda
 from lib.centralizacion.readExcel.readRendicionDeCuentas import ReadRendicionDeCuentas
 from lib.centralizacion.readExcel.readtodasLasFES import ReadtodasLasFES
 from lib.centralizacion.informes import Informes
+from lib.centralizacion.readExcel.scrapingSigfeReports import ScrapingSigfeReports
 
 
 from lib.centralizacion.readExcel.test_Deuda import main
@@ -36,10 +37,11 @@ class Centralizacion(Fuente):
 		# ReadMalla(datos)
 		# ReadRetenidos(datos)
 		# ReadRendicionDeCuentas(datos)
-		ReadTodosLosPagos(datos)
-		ReadTransferencias(datos)
-		ReadReporteDeuda(datos)
-		ReadtodasLasFES(datos)
+		# ReadTodosLosPagos(datos)
+		# ReadTransferencias(datos)
+		# ReadReporteDeuda(datos)
+		# ReadtodasLasFES(datos)
+		ScrapingSigfeReports(datos)
 
 		# main()
 

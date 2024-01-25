@@ -2,6 +2,79 @@ import sqlalchemy
 
 class Database(object):
 
+	def databaseDisponibilidadCompromiso(self, disponibilidadCompromiso):
+		metadata = sqlalchemy.MetaData()
+		engine = sqlalchemy.create_engine('sqlite:///centralizacion.db', echo=False)
+		metadata = sqlalchemy.MetaData()
+
+		OrdenDeCompra = sqlalchemy.Table(
+			'disponibilidadCompromiso',
+			metadata,
+			sqlalchemy.Column('id', sqlalchemy.Integer),
+			sqlalchemy.Column('cuenta', sqlalchemy.String),
+			sqlalchemy.Column('costo_NNA', sqlalchemy.Integer),
+			sqlalchemy.Column('cod_Proyecto', sqlalchemy.String),
+			sqlalchemy.Column('mes_atencion', sqlalchemy.String),
+			sqlalchemy.Column('monto_Convenio_2021', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Fijo', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Variable', sqlalchemy.Integer),
+			sqlalchemy.Column('factor_USS', sqlalchemy.Integer, primary_key=True)
+			)
+
+		metadata.create_all(engine)
+		disponibilidadCompromiso.to_sql('disponibilidadCompromiso', engine, if_exists='replace')
+
+
+
+	def databaseDisponibilidadRequerimientos(self, disponibilidadRequerimientos):
+		metadata = sqlalchemy.MetaData()
+		engine = sqlalchemy.create_engine('sqlite:///centralizacion.db', echo=False)
+		metadata = sqlalchemy.MetaData()
+
+		OrdenDeCompra = sqlalchemy.Table(
+			'disponibilidadRequerimientos',
+			metadata,
+			sqlalchemy.Column('id', sqlalchemy.Integer),
+			sqlalchemy.Column('cuenta', sqlalchemy.String),
+			sqlalchemy.Column('costo_NNA', sqlalchemy.Integer),
+			sqlalchemy.Column('cod_Proyecto', sqlalchemy.String),
+			sqlalchemy.Column('mes_atencion', sqlalchemy.String),
+			sqlalchemy.Column('monto_Convenio_2021', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Fijo', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Variable', sqlalchemy.Integer),
+			sqlalchemy.Column('factor_USS', sqlalchemy.Integer, primary_key=True)
+			)
+
+		metadata.create_all(engine)
+		disponibilidadRequerimientos.to_sql('disponibilidadRequerimientos', engine, if_exists='replace')
+
+
+
+	def databaseDisponibilidadDevengo(self, disponibilidadDevengo):
+		metadata = sqlalchemy.MetaData()
+		engine = sqlalchemy.create_engine('sqlite:///centralizacion.db', echo=False)
+		metadata = sqlalchemy.MetaData()
+
+		OrdenDeCompra = sqlalchemy.Table(
+			'disponibilidadDevengo',
+			metadata,
+			sqlalchemy.Column('id', sqlalchemy.Integer),
+			sqlalchemy.Column('cuenta', sqlalchemy.String),
+			sqlalchemy.Column('costo_NNA', sqlalchemy.Integer),
+			sqlalchemy.Column('cod_Proyecto', sqlalchemy.String),
+			sqlalchemy.Column('mes_atencion', sqlalchemy.String),
+			sqlalchemy.Column('monto_Convenio_2021', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Fijo', sqlalchemy.Integer),
+			sqlalchemy.Column('monto_Variable', sqlalchemy.Integer),
+			sqlalchemy.Column('factor_USS', sqlalchemy.Integer, primary_key=True)
+			)
+
+		metadata.create_all(engine)
+		disponibilidadDevengo.to_sql('disponibilidadDevengo', engine, if_exists='replace')
+
+
+
+
 	def crear_Fes(self, fes):
 		metadata = sqlalchemy.MetaData()
 		engine = sqlalchemy.create_engine('sqlite:///centralizacion.db', echo=False)
