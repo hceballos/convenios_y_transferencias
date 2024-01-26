@@ -61,7 +61,7 @@ class ReadDisponibilidadCompromisoPresupuestarios(ReadJson):
 		database.databaseDisponibilidadCompromiso(disponibilidadCompromiso)
 
 
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 		consulta  = " \
 			SELECT \
 				disponibilidadCompromiso.* \

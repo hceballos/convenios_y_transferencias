@@ -32,9 +32,9 @@
 	"CompromisoCarteraFinanciera"   : "../mejorninez/input_excel/Sigfe/CompromisoCarteraFinanciera/*",
 	"DevengoCarteraFinanciera"      : "../mejorninez/input_excel/Sigfe/DevengoCarteraFinanciera/*",
 
-	"DisponibilidadDeCompromiso"    : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadCompromisosPresupuestarios/*",
-	"DisponibilidadDeDevengo"       : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadDevengosPresupuestarios/*",
-	"DisponibilidadRequerimientos"  : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadRequerimientosPresupuestarios/*",
+	"DisponibilidadDeCompromiso"    : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadCompromisosPresupuestarios/*.xls",
+	"DisponibilidadDeDevengo"       : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadDevengosPresupuestarios/*.xls",
+	"DisponibilidadRequerimientos"  : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadRequerimientosPresupuestarios/*.xls",
 
 	"EstadoEjecucionPresupuestaria" : "../mejorninez/input_excel/Sigfe/EstadoEjecucionPresupuestaria/*.xls",
 	"EstadoEjecucionPresupuestariaAvanzado" : "../mejorninez/input_excel/Sigfe/EstadoEjecucionPresupuestariaAvanzado/*.xls",
