@@ -9,6 +9,7 @@ from lib.centralizacion.lineasAccion.Linea2401005.linea2401005 import Linea24010
 from lib.centralizacion.lineasAccion.Linea2401006.linea2401006 import Linea2401006
 import re
 
+
 class ReadTransferencias:
 
 	def __init__(self, datos):
@@ -22,7 +23,10 @@ class ReadTransferencias:
 			transferencias = transferencias.append(transferencias_actual, ignore_index=True)
 
 		transferencias.rename(columns={'MES ATENCION': 'mes_atencion', 'ID TIPO PAGO': 'id_tipo_pago', 'TIPO PAGO': 'tipo_pago', 'FOLIO': 'folio', 'COD REGION': 'cod_region', 'COD PROYECTO': 'cod_proyecto', 'PROYECTO': 'proyecto', 'COD INSTITUCION': 'cod_institucion', 'INSTITUCION': 'institucion', 'DEPARTAMENTO SENAME': 'departamento_sename', 'TIPO SUBVENCION_DES': 'tipo_subvencion_des', 'TIPO PROYECTO_DES': 'tipo_proyecto_des', 'MODELO INTERVENCION': 'modelo_intervencion', 'BANCO': 'banco', 'CUENTA CORRIENTE NUMERO': 'cuenta_corriente_numero', 'RUT PROYECTO': 'rut_proyecto', 'MONTO MAXIMO PAGO': 'monto_maximo_pago', 'MONTO PAGO FIJO': 'monto_pago_fijo', 'MONTO PAGO VARIABLE': 'monto_pago_variable', 'MONTO POR ATENCION': 'monto_por_atencion', 'MONTO DEUDA': 'monto_deuda', 'MONTO RELIQUIDACION': 'monto_reliquidacion', 'MONTO RETENCION': 'monto_retencion', 'MONTO LIQUIDO PAGADO': 'monto_liquido_pagado', 'PLAZAS CONVENIDAS': 'plazas_convenidas', 'PLAZAS ATENDIDAS': 'plazas_atendidas', 'FACTOR FIJO': 'factor_fijo', 'FACTOR VARIABLE': 'factor_variable', 'FACTOR EDAD': 'factor_edad', 'FACTOR COBERTURA': 'factor_cobertura', 'FACTOR DISCAPACIDAD': 'factor_discapacidad', 'FACTOR COMPLEJIDAD': 'factor_complejidad', 'FACTOR CVF': 'factor_cvf', 'ASIGNACION ZONA': 'asignacion_zona', 'FACTOR USS': 'factor_uss', 'USS': 'uss', 'NUMERO PLAZAS': 'numero_plazas', 'NRO DIAS': 'nro_dias', 'FECHA CIERRE PAGO ': 'fecha_cierre_pago_', 'NUMERO RESOLUCION': 'numero_resolucion', 'FECHA CREACION': 'fecha_creacion', 'FECHA TERMINO': 'fecha_termino', 'NUMERO CDP': 'numero_cdp', 'ANNO PRESUPUESTARIO': 'anno_presupuestario', 'NUMERO RESOLUCION CDP': 'numero_resolucion_cdp', 'FECHA RESOLUCION CDP': 'fecha_resolucion_cdp', 'DESCRIPCION CDP': 'descripcion_cdp'}, inplace=True)
-		transferencias['numero_mes'] = transferencias['mes_atencion'].apply(lambda x: str(x)[-2:] if pd.notnull(x) else None)
+		# transferencias['numero_mes'] = transferencias['mes_atencion'].apply(lambda x: str(x)[-2:] if pd.notnull(x) else None)
+		transferencias['numero_mes'] = transferencias['mes_atencion'].apply(lambda x: '01' if pd.notnull(x) and str(x)[-2:] == '12' else f"{int(str(x)[-2:]) + 1:02d}" if pd.notnull(x) else None)
+
+
 
 		columnas_fecha = ['fecha_cierre_pago_', 'fecha_creacion', 'fecha_termino']
 		for columna in columnas_fecha:
@@ -55,3 +59,7 @@ class ReadTransferencias:
 		Linea2401004(transferencias)
 		Linea2401005(transferencias)
 		Linea2401006(transferencias)
+
+		database = Database()
+		database.databaseScrapy(transferencias)
+
