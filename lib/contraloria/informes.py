@@ -18,14 +18,7 @@ class Informes(object):
 		cnx = sqlite3.connect('contraloria.db')
 		consulta  = " \
 			SELECT \
-				scrapy.'ID_Pago', \
-				scrapy.'Cod_Proyecto', \
-				scrapy.'Mes_Atencion', \
-				scrapy.'Nro_dias_Mes', \
-				scrapy.'80B_Bis_Plazas', \
-				scrapy.'80B_Bis_Monto_a_Pago_total', \
-				scrapy.'80B_Bis_Estado_Transferencia', \
-				scrapy.'80B_Bis_Fecha_Transferencia' \
+				scrapy.* \
 			FROM \
 				scrapy \
 			ORDER BY \

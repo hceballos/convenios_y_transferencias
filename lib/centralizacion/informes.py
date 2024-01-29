@@ -9,6 +9,8 @@ import glob
 import os
 from datetime import datetime
 from lib.centralizacion.analisis.analisis import Analisis
+#from lib.centralizacion.scrapy import Scrapy
+from lib.centralizacion.scrapyProceso.setup import Setup
 
 
 class Informes(object):
@@ -30,6 +32,27 @@ class Informes(object):
 			df = pd.read_sql_query(consulta_modificada, cnx)
 			analisis = Analisis()
 			df = analisis.analisis_Rendiciones(df)
+
+
+
+
+			# ========================================================================================================
+			"""
+			condicion = abs(df['Diferencia']) > 100
+			filas_cumplen_condicion = df.loc[condicion]
+			for index, row in filas_cumplen_condicion.iterrows():
+				print(row['Diferencia'])
+				filas_cumplen_condicion = df.loc[condicion]
+				filas_cumplen_condicion['MES_ATENCION'] = filas_cumplen_condicion['mes_atencion']
+				filas_cumplen_condicion['COD_PROYECTO'] = filas_cumplen_condicion['cod_proyecto']
+
+			driver = Setup(filas_cumplen_condicion)
+			"""
+			# ========================================================================================================
+
+
+
+
 			df.to_excel(writer, sheet_name=nombre_archivo, index=False)
 
 	def __init__(self):
