@@ -38,11 +38,11 @@ class Centralizacion(Fuente):
 		# ReadRetenidos(datos)
 		# ReadRendicionDeCuentas(datos)
 		# ReadTodosLosPagos(datos)
-		# ReadTransferencias(datos)
+		ReadTransferencias(datos)
 		# ReadReporteDeuda(datos)
 		# ReadtodasLasFES(datos)
-		ScrapingSigfeReports(datos)
+		# ScrapingSigfeReports(datos)
 
 		# main()
 
-		Informes()
+		# Informes()

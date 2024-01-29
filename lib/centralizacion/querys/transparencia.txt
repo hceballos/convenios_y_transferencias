@@ -1,0 +1,7 @@
+SELECT
+	todosLosPagos.*
+FROM
+	todosLosPagos
+WHERE
+	todosLosPagos.'institucion' LIKE '%FUNDACIÓN CIUDAD DEL NIÑO%'
+	and todosLosPagos.'mes_atencion' LIKE '%2023%'
