@@ -1,4 +1,5 @@
-from lib.database  import Database
+# from lib.database  import Database
+from lib.centralizacion.database.database import Database
 from lib.readJson  import ReadJson
 import sqlite3
 import pandas as pd
@@ -60,7 +61,7 @@ class ReadDisponibilidadCompromisoPresupuestarios(ReadJson):
 		database.databaseDisponibilidadCompromiso(disponibilidadCompromiso)
 
 
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 		consulta  = " \
 			SELECT \
 				disponibilidadCompromiso.* \
@@ -94,7 +95,7 @@ class ReadDisponibilidadCompromisoPresupuestarios(ReadJson):
 		database.databasecentralizaciones(centralizaciones)
 
 		# Genera reporte
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 
 		consulta1  = " \
 			SELECT \

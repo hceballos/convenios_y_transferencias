@@ -31,7 +31,7 @@ class Informes(object):
 			#print(consulta_modificada)
 			df = pd.read_sql_query(consulta_modificada, cnx)
 			analisis = Analisis()
-			df = analisis.analisis_Rendiciones(df)
+			# df = analisis.analisis_Rendiciones(df)
 
 
 

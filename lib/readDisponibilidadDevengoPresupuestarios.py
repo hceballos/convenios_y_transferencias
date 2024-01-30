@@ -1,4 +1,5 @@
-from lib.database  import Database
+# from lib.database  import Database
+from lib.centralizacion.database.database import Database
 from lib.readJson  import ReadJson
 from datetime import datetime
 from datetime import datetime, timedelta
@@ -66,7 +67,7 @@ class ReadDisponibilidadDevengoPresupuestarios(ReadJson):
 		database = Database()
 		database.databaseDisponibilidadDevengo(disponibilidadDevengo)
 
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 		consulta  = " \
 			SELECT \
 				disponibilidadDevengo.* \
@@ -78,7 +79,7 @@ class ReadDisponibilidadDevengoPresupuestarios(ReadJson):
 		query1 = pd.read_sql_query(consulta, cnx)
 
 
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 		consulta  = " \
 			SELECT \
 				disponibilidadDevengo.* \
@@ -94,7 +95,7 @@ class ReadDisponibilidadDevengoPresupuestarios(ReadJson):
 		query2 = pd.read_sql_query(consulta, cnx)
 
 
-		cnx = sqlite3.connect('database.db')
+		cnx = sqlite3.connect('centralizacion.db')
 		consulta  = " \
 			SELECT \
 				disponibilidadDevengo.* \

@@ -1,0 +1,57 @@
+SELECT
+	t.*,
+	d.'region',
+	d.'tipo_de_pago',
+	d.'Folio' as 'Folio Compromiso',
+	d.'rut',
+	d.'Monto Consumido',
+	d.'cuenta',
+	(d.'Monto Consumido' - t.'monto_liquido_pagado') as 'Disponibilidad en Requerimiento'
+FROM		
+		(SELECT
+			transferencias.'cod_region',
+			transferencias.'cuenta',
+			transferencias.'tipo_de_pago',
+			transferencias.'rut_proyecto',
+			transferencias.'cod_proyecto',
+			transferencias.'mes_atencion',
+			transferencias.'institucion',
+			transferencias.'monto_liquido_pagado'
+		FROM
+			transferencias
+		GROUP BY
+			transferencias.'rut_proyecto',
+			transferencias.'cod_proyecto'
+		ORDER BY
+			transferencias.'cod_region',
+			transferencias.'rut_proyecto',
+			transferencias.'cod_proyecto'
+		)t
+
+	LEFT JOIN 
+
+		(SELECT
+			disponibilidadCompromiso.'Unidad Ejecutora',
+			disponibilidadCompromiso.'tipo_de_pago',
+			disponibilidadCompromiso.'Folio',
+			disponibilidadCompromiso.'Monto Consumido',
+			disponibilidadCompromiso.'rut',
+			disponibilidadCompromiso.'CodRegion',
+			disponibilidadCompromiso.'cuenta',
+			disponibilidadCompromiso.'region',
+			disponibilidadCompromiso.'cuenta'
+		FROM
+			disponibilidadCompromiso
+		WHERE
+			disponibilidadCompromiso.'cuenta' like '2401%'
+		)d
+
+		ON t.'cod_region'  = d.'region'
+		AND t.'rut_proyecto'  = d.'rut'
+		AND t.'cuenta'  = d.'cuenta'
+		AND t.'tipo_de_pago'  = d.'tipo_de_pago'
+		
+ORDER BY
+	t.'cod_region',
+	t.'cuenta',
+	t.'rut_proyecto'

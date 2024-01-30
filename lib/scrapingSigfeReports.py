@@ -26,13 +26,13 @@ class ScrapingSigfeReports(Fuente):
 		self.setUp(driver, datos)
 
 	def setUp(self, driver, datos):
-		fecha_desde = "2023-01-01"
-		fecha_hasta = "2023-12-31"
-		ejercicio   = "2023"
+		fecha_desde = "2024-01-01"
+		fecha_hasta = "2024-12-31"
+		ejercicio   = "2024"
 		coberturas = ["2111001", "2111002", "2111003", "2111004", "2111005", "2111006", "2111007", "2111008", "2111009", "2111010", "2111011", "2111012", "2111013", "2111014", "2111015", "2111016", "2111017"]
 
 
-
+		"""
 		i = 0
 		for cobertura in coberturas:
 			driver.execute_script("window.open('');")
@@ -42,9 +42,8 @@ class ScrapingSigfeReports(Fuente):
 			i += 1
 			time.sleep(1)
 		time.sleep(1000)
-
-
 		"""
+
 		i = 0
 		for cobertura in coberturas:
 			driver.execute_script("window.open('');")
@@ -54,7 +53,8 @@ class ScrapingSigfeReports(Fuente):
 			i += 1
 			time.sleep(1)
 		time.sleep(1000)
-		"""
+
+
 
 		"""
 		i = 0

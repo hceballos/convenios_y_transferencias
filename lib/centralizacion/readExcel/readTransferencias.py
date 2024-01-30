@@ -51,7 +51,26 @@ class ReadTransferencias:
 		transferencias['factor_discapacidad']	= transferencias['factor_discapacidad'] / 100
 		transferencias['factor_uss']			= transferencias['factor_uss'] / 100
 		#transferencias['Deuda']				= 0	
-		transferencias['Monto Convenio']		= 0		
+		transferencias['Monto Convenio']		= 0
+		transferencias['tipo_de_pago']			= transferencias['tipo_pago'].replace({'INDIVIDUAL NORMAL': 'SUBV', 'MASIVO NORMAL': 'SUBV', 'URGENCIA': 'SUBV', 'ANTICIPO': 'SUBV', '80 BIS': '80 BIS', 'EMERGENCIA': 'EMG'})
+
+		transferencias.loc[	(transferencias['cod_region'] == 1), 'nombre_region']	=  "TARAPACÁ"
+		transferencias.loc[	(transferencias['cod_region'] == 2), 'nombre_region']	=  "ANTOFAGASTA"
+		transferencias.loc[	(transferencias['cod_region'] == 3), 'nombre_region']	=  "ATACAMA"
+		transferencias.loc[	(transferencias['cod_region'] == 4), 'nombre_region']	=  "COQUIMBO"
+		transferencias.loc[	(transferencias['cod_region'] == 5), 'nombre_region']	=  "VALPARAÍSO"
+		transferencias.loc[	(transferencias['cod_region'] == 6), 'nombre_region']	=  "O'HIGGINGS"
+		transferencias.loc[	(transferencias['cod_region'] == 7), 'nombre_region']	=  "MAULE"
+		transferencias.loc[	(transferencias['cod_region'] == 8), 'nombre_region']	=  "BÍO BÍO"
+		transferencias.loc[	(transferencias['cod_region'] == 9), 'nombre_region']	=  "ARAUCANÍA"
+		transferencias.loc[	(transferencias['cod_region'] == 10), 'nombre_region']	=  "LOS LAGOS"
+		transferencias.loc[	(transferencias['cod_region'] == 11), 'nombre_region']	=  "AYSEN"
+		transferencias.loc[	(transferencias['cod_region'] == 12), 'nombre_region']	=  "MAGALLANES"
+		transferencias.loc[	(transferencias['cod_region'] == 13), 'nombre_region']	=  "METROPOLITANA"
+		transferencias.loc[	(transferencias['cod_region'] == 14), 'nombre_region']	=  "LOS RÍOS"
+		transferencias.loc[	(transferencias['cod_region'] == 15), 'nombre_region']	=  "ARICA Y PARINACOTA"
+		transferencias.loc[	(transferencias['cod_region'] == 16), 'nombre_region']	=  "ÑUBLE"
+		transferencias.loc[	(transferencias['cod_region'] == 17), 'nombre_region']	=  "DIR NACIONAL"
 
 		Linea2401001(transferencias)
 		Linea2401002(transferencias)
