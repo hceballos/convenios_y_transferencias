@@ -24,6 +24,7 @@ pulp = "*"
 scipy = "*"
 pyomo = "*"
 pypdf2 = "*"
+scrapy = "*"
 
 [requires]
 python_version = "3.6"
