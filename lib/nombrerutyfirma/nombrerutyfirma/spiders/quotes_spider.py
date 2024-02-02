@@ -1,31 +1,35 @@
 # scrapy crawl quotes -o ../../output/nombrerutyfirma.json
 import scrapy
+import sqlite3
+import sqlalchemy
+import pandas as pd
 
 
 class QuotesSpider(scrapy.Spider):
-    name = "quotes"
+	name = "quotes"
 
-    def start_requests(self):
-        urls = [
-            'https://www.nombrerutyfirma.com/rut?term=7.140.723-3',
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+	def start_requests(self):
 
-    def parse(self, response):
-        """
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
-        """
+		cnx = sqlite3.connect('C:/Users/hceballos/Music/desarrollo/convenios_y_transferencias/nombreRut.db')
+		consulta  = " \
+			SELECT \
+				nombreRut.* \
+			FROM \
+				nombreRut \
+		"
+		query = pd.read_sql_query(consulta, cnx)
+		resultados_lista = pd.read_sql_query(consulta, cnx).to_dict(orient='records')
 
-    def parse(self, response):
-        for quote in response.xpath('/html/body/div[2]/div/table'):
-            yield {
-                'nombre': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[1]/text()').extract_first(),
-                'run': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[2]/text()').extract_first(),
-                'direccion': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[4]/text()').extract_first(),
-                'ciudad/comuna': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[5]/text()').extract_first(),
-            }
+		urls = [item['rut'] for item in resultados_lista]
+
+		for url in urls:
+			yield scrapy.Request(url=url, callback=self.parse)
+
+	def parse(self, response):
+		for quote in response.xpath('/html/body/div[2]/div/table'):
+			yield {
+				'nombre': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[1]/text()').extract_first(),
+				'run': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[2]/text()').extract_first(),
+				'direccion': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[4]/text()').extract_first(),
+				'ciudad/comuna': quote.xpath('/html/body/div[2]/div/table/tbody/tr/td[5]/text()').extract_first(),
+			}
