@@ -25,6 +25,8 @@ scipy = "*"
 pyomo = "*"
 pypdf2 = "*"
 scrapy = "*"
+fuzzywuzzy = "*"
+scrapy-rotating-proxies = "*"
 
 [requires]
 python_version = "3.6"

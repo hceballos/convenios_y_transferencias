@@ -23,9 +23,8 @@ from lib.centralizacion.readExcel.readRendicionDeCuentas import ReadRendicionDeC
 from lib.centralizacion.readExcel.readtodasLasFES import ReadtodasLasFES
 from lib.centralizacion.informes import Informes
 from lib.centralizacion.readExcel.scrapingSigfeReports import ScrapingSigfeReports
-
-
 from lib.centralizacion.readExcel.test_Deuda import main
+from lib.centralizacion.download import Download
 
 
 class Centralizacion(Fuente):
@@ -34,15 +33,17 @@ class Centralizacion(Fuente):
 		Fuente.__init__(self, json_path)
 		datos = self.datos
 
+
+		Download()
 		# ReadMalla(datos)
 		# ReadRetenidos(datos)
 		# ReadRendicionDeCuentas(datos)
-		ReadTodosLosPagos(datos)
-		ReadTransferencias(datos)
-		ReadReporteDeuda(datos)
+		## ReadTodosLosPagos(datos)
+		## ReadTransferencias(datos)
+		## ReadReporteDeuda(datos)
 		# ReadtodasLasFES(datos)
 		# ScrapingSigfeReports(datos)
 
 		# main()
 
-		Informes()
+		# Informes()
