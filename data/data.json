@@ -27,7 +27,7 @@
 	"analisisRetenidos" 			: "../mejorninez/input_excel/AnalisisRetenidos/*",
 	"contraloria" 					: "../convenios_y_transferencias/input_excel/contraloria/*",
 
-
+	"nombrerutyfirma"				: "../convenios_y_transferencias/input_excel/nombrerutyfirma/*",
 
 	"CompromisoCarteraFinanciera"   : "../mejorninez/input_excel/Sigfe/CompromisoCarteraFinanciera/*",
 	"DevengoCarteraFinanciera"      : "../mejorninez/input_excel/Sigfe/DevengoCarteraFinanciera/*",
@@ -36,9 +36,9 @@
 	"DisponibilidadDeDevengo"       : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadDevengosPresupuestarios/*.xls",
 	"DisponibilidadRequerimientos"  : "../convenios_y_transferencias/input_excel/centralizacion/Sigfe/DisponibilidadRequerimientosPresupuestarios/*.xls",
 
-	"EstadoEjecucionPresupuestaria" : "../mejorninez/input_excel/Sigfe/EstadoEjecucionPresupuestaria/*.xls",
+	"EstadoEjecucionPresupuestaria" 		: "../mejorninez/input_excel/Sigfe/EstadoEjecucionPresupuestaria/*.xls",
 	"EstadoEjecucionPresupuestariaAvanzado" : "../mejorninez/input_excel/Sigfe/EstadoEjecucionPresupuestariaAvanzado/*.xls",
-	"clasificador"                  : "../mejorninez/input_excel/Sigfe/clasificacion/*",
+	"clasificador"                  		: "../mejorninez/input_excel/Sigfe/clasificacion/*",
 
 
 	"url_sigfe"                 : "https://sb.sigfe.gob.cl/sigfeReports/faces/autenticacion",
