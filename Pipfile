@@ -26,7 +26,11 @@ pyomo = "*"
 pypdf2 = "*"
 scrapy = "*"
 fuzzywuzzy = "*"
+<<<<<<< HEAD
 unidecode = "*"
+=======
+scrapy-rotating-proxies = "*"
+>>>>>>> 9baaeaadbbe9ed76215986d455149052c12aa555
 
 [requires]
 python_version = "3.6"
