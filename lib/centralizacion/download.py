@@ -37,7 +37,7 @@ class Download():
 			print("Estás utilizando un sistema Mac")
 			FES()
 			Transferencias()
-			Deudas()
+			#Deudas()
 		
 
 		elif sistema_operativo == 'Windows':

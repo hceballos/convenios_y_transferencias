@@ -69,6 +69,7 @@ if __name__ == '__main__':
 
 		break
 	"""
+	
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--db",             				help="Lectura excel de pago manual y Genera la base de datos para validar RU o 80 BIS.")
