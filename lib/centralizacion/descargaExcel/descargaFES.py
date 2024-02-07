@@ -25,8 +25,20 @@ from lib.elementos import Envio_Informacion, Click
 from lib.contraloria.scrapyProceso.tablaPagos import TablaPagos
 
 
+
 class FES(object):
 	def __init__(self):
+
+		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/*', recursive=True):
+			print('Procesando  : ', f)
+			# Verificar si el archivo existe antes de intentar eliminarlo
+			if os.path.exists(f):
+			    # Eliminar el archivo
+			    os.remove(f)
+			    print("El archivo se ha eliminado exitosamente.")
+			else:
+			    print("El archivo no existe.")
+
 
 		chrome_options = webdriver.ChromeOptions()
 		prefs = {
@@ -61,7 +73,56 @@ class FES(object):
 		envioInforProyecto.envio_Informacion_by_name(driver, "txtMesAnoFes", '202401')
 		time.sleep(2.5)
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "lnkGenerar"))).click()  # BOTON BUSCAR
-
-
-		time.sleep(5)
+		time.sleep(20)
 		driver.quit()
+
+		# Ruta al archivo Excel
+		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/Reporte_FES_*.xls', recursive=True):
+			print('Procesando  : ', f)
+			archivo_entrada = f
+			archivo_salida = '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/Reporte_FES.xlsx'
+
+			# Utilizar pandas para leer el archivo .xls y luego guardarlo como .xlsx
+			df = pd.read_csv(archivo_entrada, delimiter='\t', encoding='utf-16')
+
+			# Eliminar la última fila
+			df = df.drop(df.index[-1])
+
+			# Reemplazar el nombre de las columnas
+			nombres_columnas = ['ARCHIVO', 'Tipo Resolución', 'Folio', 'codregion', 'codproyecto',
+			                    'mesano', 'Correlativo', 'Proyecto_Nombre', 'codinstitucion', 'Institucion',
+			                    'ModeloIntervencion', 'PlzAtendidas', 'DiasAtencion', 'FechaEnviorepositorio',
+			                    'HistoricoPagos', 'HistoricoPlz', 'HistoricoFolio', 'Diferencia_Plazas',
+			                    'OrdenRegion', 'Fechaactualizacion', 'Plazas_80Bis_APago', 'Plazas_Convenidas']
+
+			df.columns = nombres_columnas
+
+			# Función para eliminar etiquetas HTML específicas de una cadena
+			def eliminar_etiquetas_html(texto_html):
+			    texto_limpio = texto_html.replace('<tr>', '').replace('</tr>', '').replace('<td>', '').replace('</td>', '').replace('</Td><Td>', '').replace('</TR><Td>', '').replace('</Td>', '').replace('<TR><Td>', '')
+			    return texto_limpio
+
+			# Aplicar la función a todas las celdas del DataFrame
+			df = df.applymap(lambda x: eliminar_etiquetas_html(str(x)) if isinstance(x, str) else x)
+
+			df['PlzAtendidas']          = df['PlzAtendidas'].astype(int)
+			df['DiasAtencion']          = df['DiasAtencion'].astype(int)
+			df['Diferencia_Plazas']     = df['Diferencia_Plazas'].astype(int)
+			df['OrdenRegion']           = df['OrdenRegion'].astype(int)
+			df['Plazas_80Bis_APago']    = df['Plazas_80Bis_APago'].astype(int)
+			df['Plazas_Convenidas']     = df['Plazas_Convenidas'].astype(int)
+
+
+			# Guardar el DataFrame en un nuevo archivo Excel
+			df.to_excel(archivo_salida, index=False, engine='openpyxl')
+
+			# Ruta del archivo que deseas eliminar
+			archivo_a_eliminar = f
+
+			# Verificar si el archivo existe antes de intentar eliminarlo
+			if os.path.exists(archivo_a_eliminar):
+			    # Eliminar el archivo
+			    os.remove(archivo_a_eliminar)
+			    print("El archivo se ha eliminado exitosamente.")
+			else:
+			    print("El archivo no existe.")
