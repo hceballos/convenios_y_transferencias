@@ -44,6 +44,8 @@ class ScrapingSigfeReports(Fuente):
 		time.sleep(1000)
 		"""
 
+
+		"""
 		i = 0
 		for cobertura in coberturas:
 			driver.execute_script("window.open('');")
@@ -53,10 +55,10 @@ class ScrapingSigfeReports(Fuente):
 			i += 1
 			time.sleep(1)
 		time.sleep(1000)
-
-
-
 		"""
+
+
+
 		i = 0
 		for cobertura in coberturas:
 			driver.execute_script("window.open('');")
@@ -66,7 +68,7 @@ class ScrapingSigfeReports(Fuente):
 			i += 1
 			time.sleep(1)
 		time.sleep(1000)
-		"""
+
 
 
 

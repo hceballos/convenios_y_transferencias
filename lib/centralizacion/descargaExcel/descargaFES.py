@@ -23,6 +23,7 @@ from PyPDF2 import PdfReader
 from lib.fuente import Fuente
 from lib.elementos import Envio_Informacion, Click
 from lib.contraloria.scrapyProceso.tablaPagos import TablaPagos
+import os
 
 
 
@@ -42,20 +43,35 @@ class FES(object):
 
 		chrome_options = webdriver.ChromeOptions()
 		prefs = {
-			'download.default_directory': '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/',
+			"download.default_directory": "../convenios_y_transferencias/input_excel/centralizacion/FES/",
 			"download.prompt_for_download": False,
 			"download.directory_upgrade": True,
 			"safebrowsing_for_trusted_sources_enabled": False,
 			"safebrowsing.enabled": False
 		}
-		chrome_options.add_experimental_option('prefs', prefs)
-		chrome_options.add_argument('--ignore-certificate-errors')
-		chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-		chrome_options.binary_location = '..//convenios_y_transferencias//webdriver//chrome-mac//Chromium.app//Contents//MacOS//Chromium'  # Ruta a la versión de Chromium 114.0.5735.90
-		#chrome_options.add_argument('--headless')
-		driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
-		driver.maximize_window()
+
+
+		sistema_operativo = platform.system()
+		if sistema_operativo == 'Darwin':
+			print("Estás utilizando un sistema Mac")
+			chrome_options.add_experimental_option('prefs', prefs)
+			chrome_options.add_argument('--ignore-certificate-errors')
+			chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+			chrome_options.binary_location = '..//convenios_y_transferencias//webdriver//chrome-mac//Chromium.app//Contents//MacOS//Chromium'  # Ruta a la versión de Chromium 114.0.5735.90
+			#chrome_options.add_argument('--headless')
+			driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
+			driver.maximize_window()
+
+		elif sistema_operativo == 'Windows':
+			print("Estás utilizando un sistema Windows.")
+			chrome_options.add_experimental_option('prefs', prefs)
+			chrome_options.add_argument('--ignore-certificate-errors')
+			chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+			#chrome_options.add_argument('--headless')
+			driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
+			driver.maximize_window()
 		
+
 		driver.get('https://www.sis.mejorninez.cl/')
 		webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 		envioInformacion = Envio_Informacion()

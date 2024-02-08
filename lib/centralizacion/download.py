@@ -8,7 +8,6 @@ import platform
 import time
 import sqlite3
 import re
-import platform
 import pandas as pd
 import glob
 from selenium.webdriver.support.ui import WebDriverWait
@@ -38,7 +37,9 @@ class Download():
 			FES()
 			Transferencias()
 			Deudas()
-		
 
 		elif sistema_operativo == 'Windows':
 			print("Estás utilizando un sistema Windows.")
+			FES()
+			Transferencias()
+			Deudas()
