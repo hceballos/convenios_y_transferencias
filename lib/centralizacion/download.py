@@ -35,9 +35,9 @@ class Download():
 		sistema_operativo = platform.system()
 		if sistema_operativo == 'Darwin':
 			print("Estás utilizando un sistema Mac")
-			FES()
-			Transferencias()
-			#Deudas()
+			#FES()
+			#ransferencias()
+			Deudas()
 		
 
 		elif sistema_operativo == 'Windows':
