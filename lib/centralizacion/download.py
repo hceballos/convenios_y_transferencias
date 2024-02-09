@@ -30,16 +30,7 @@ from lib.centralizacion.descargaExcel.descargaDeudas import Deudas
 class Download():
 
 	def __init__(self):
-
-		sistema_operativo = platform.system()
-		if sistema_operativo == 'Darwin':
-			print("Estás utilizando un sistema Mac")
-			FES()
-			Transferencias()
-			Deudas()
-
-		elif sistema_operativo == 'Windows':
-			print("Estás utilizando un sistema Windows.")
-			FES()
-			Transferencias()
-			Deudas()
+		
+		FES()
+		Transferencias()
+		Deudas()

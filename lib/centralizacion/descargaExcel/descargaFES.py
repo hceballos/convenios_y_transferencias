@@ -30,26 +30,24 @@ import os
 class FES(object):
 	def __init__(self):
 
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/*', recursive=True):
-			print('Procesando  : ', f)
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/FES/*', recursive=True):
+			#print('Procesando  : ', f)
 			# Verificar si el archivo existe antes de intentar eliminarlo
 			if os.path.exists(f):
 			    # Eliminar el archivo
 			    os.remove(f)
-			    print("El archivo se ha eliminado exitosamente.")
+			    # print("El archivo se ha eliminado exitosamente.")
 			else:
 			    print("El archivo no existe.")
 
-
 		chrome_options = webdriver.ChromeOptions()
 		prefs = {
-			"download.default_directory": "../convenios_y_transferencias/input_excel/centralizacion/FES/",
+			'download.default_directory': os.getcwd()+'/input_excel/centralizacion/FES/',
 			"download.prompt_for_download": False,
 			"download.directory_upgrade": True,
 			"safebrowsing_for_trusted_sources_enabled": False,
 			"safebrowsing.enabled": False
 		}
-
 
 		sistema_operativo = platform.system()
 		if sistema_operativo == 'Darwin':
@@ -70,7 +68,6 @@ class FES(object):
 			#chrome_options.add_argument('--headless')
 			driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
 			driver.maximize_window()
-		
 
 		driver.get('https://www.sis.mejorninez.cl/')
 		webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
@@ -93,10 +90,10 @@ class FES(object):
 		driver.quit()
 
 		# Ruta al archivo Excel
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/Reporte_FES_*.xls', recursive=True):
-			print('Procesando  : ', f)
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/FES/Reporte_FES_*.xls', recursive=True):
+			# print('Procesando  : ', f)
 			archivo_entrada = f
-			archivo_salida = '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/FES/Reporte_FES.xlsx'
+			archivo_salida = os.getcwd()+'/input_excel/centralizacion/FES/Reporte_FES.xlsx'
 
 			# Utilizar pandas para leer el archivo .xls y luego guardarlo como .xlsx
 			df = pd.read_csv(archivo_entrada, delimiter='\t', encoding='utf-16')
@@ -128,7 +125,6 @@ class FES(object):
 			df['Plazas_80Bis_APago']    = df['Plazas_80Bis_APago'].astype(int)
 			df['Plazas_Convenidas']     = df['Plazas_Convenidas'].astype(int)
 
-
 			# Guardar el DataFrame en un nuevo archivo Excel
 			df.to_excel(archivo_salida, index=False, engine='openpyxl')
 
@@ -139,6 +135,6 @@ class FES(object):
 			if os.path.exists(archivo_a_eliminar):
 			    # Eliminar el archivo
 			    os.remove(archivo_a_eliminar)
-			    print("El archivo se ha eliminado exitosamente.")
+			    # print("El archivo se ha eliminado exitosamente.")
 			else:
 			    print("El archivo no existe.")
