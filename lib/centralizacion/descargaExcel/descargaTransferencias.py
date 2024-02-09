@@ -85,10 +85,10 @@ class Transferencias(object):
 		driver.quit()
 
 		# Ruta al archivo Excel
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/transferencias/*.xls', recursive=True):
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/transferencias/*.xls', recursive=True):
 			# print('Procesando  : ', f)
 			archivo_entrada = f
-			archivo_salida = '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/transferencias/transferencias.xlsx'
+			archivo_salida = os.getcwd()+'/input_excel/centralizacion/transferencias/transferencias.xlsx'
 
 			# Utilizar pandas para leer el archivo .xls y luego guardarlo como .xlsx
 			df = pd.read_csv(archivo_entrada, delimiter='\t', encoding='utf-16')

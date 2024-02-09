@@ -31,7 +31,7 @@ import xlrd
 class Deudas(object):
 	def __init__(self):
 
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/reporteDeuda/*', recursive=True):
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/transferencias/reporteDeuda/*', recursive=True):
 			# print('Procesando  : ', f)
 			# Verificar si el archivo existe antes de intentar eliminarlo
 			if os.path.exists(f):
@@ -89,7 +89,7 @@ class Deudas(object):
 			return texto_limpio
 	
 		# Ruta al archivo Excel
-		for f in glob.glob('/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/reporteDeuda/Reporte_Deudas*.xls', recursive=True):
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/reporteDeuda/Reporte_Deudas*.xls', recursive=True):
 			# print('Procesando  : ', f)
 			# Leer el archivo .xls y convertirlo a .xlsx
 			try:
@@ -103,7 +103,7 @@ class Deudas(object):
 						ws.append(row_data)
 				
 				# Guardar el archivo .xlsx
-				archivo_salida = '/Users/hector/Documents/Documents/desarrollo/convenios_y_transferencias/input_excel/centralizacion/reporteDeuda/Deudas.xlsx'
+				archivo_salida = os.getcwd()+'/input_excel/centralizacion/reporteDeuda/Deudas.xlsx'
 				wb.save(archivo_salida)
 				# print('El archivo se ha convertido a .xlsx correctamente')
 				
