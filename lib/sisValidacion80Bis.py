@@ -50,15 +50,19 @@ class SisValidacion80Bis(Fuente):
 		print("Processing Proyecto  : ", row['Cod. Proyecto'], " " ,row['Mes Atención'], " " , row['Tipo'], " " , row['Mes Atención'], " " , row['Plazas Atendidas'], " " , row['Monto Total'], " No se encontraron registros" )
 
 		try:
-			WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='lnkLimpiar']"))).click()
+			# WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='lnkLimpiar']"))).click()
+			WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnActualizarCdp']"))).click()
 		except Exception as e:
-			WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "lnkLimpiar"))).click()
+			# WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "lnkLimpiar"))).click()
+			WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnActualizarCdp"))).click()
 
 		self.ingresar_Validacion(driver, datos)
 
 		# ===================================================================================
 	def linkDetalle(self, driver, datos, row, cnx):
-		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "GV_Pendientes_lblDetalle_0"))).click() 		# BOTON DETALLE
+		# WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "GV_Pendientes_lblDetalle_0"))).click() 		# BOTON DETALLE
+		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "GV_Pendientes_lblEditar_0"))).click() 		# BOTON DETALLE
+
 		time.sleep(1)
 		driver.find_element_by_tag_name('body').send_keys(Keys.END) 													# BAJAR EL SCROLL
 		driver.find_element_by_tag_name('body').send_keys(Keys.ENTER) 													# TECLA ENTER
@@ -67,7 +71,9 @@ class SisValidacion80Bis(Fuente):
 
 		# ===================================================================================
 	def extraeInformacion(self, driver, datos, row, cnx, num_rows):
-		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnValidarCdp")))		# esta disponible el boton de "Validar y enviar Pago"?
+		#WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnActualizarCdp")))		# esta disponible el boton de "Validar y enviar Pago"?
+		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnActualizarCdp")))		# esta disponible el boton de "Validar y enviar Pago"?
+
 		driver.find_element_by_tag_name('body').send_keys(Keys.END)									# Scroll hacia abajo
 		
 		Proyecto		= driver.find_element(By.XPATH, '//*[@id="panel_Calculo"]/div[2]/table[2]/tbody/tr[5]/td').text
@@ -87,6 +93,15 @@ class SisValidacion80Bis(Fuente):
 		self.analizaInformacion(driver, datos, row, cnx, Proyecto, MesdeAtencion, Convenidas, MontoaPago, num_rows)
 
 	def analizaInformacion(self, driver, datos, row, cnx, Proyecto, MesdeAtencion, Convenidas, MontoaPago, num_rows):
+
+		driver.find_element_by_xpath("//*[@id='txtNroCDP']").clear() # Numero CDP	
+		driver.find_element_by_xpath("//*[@id='txtNroRes']").clear() # Numero Resolucion	
+		driver.find_element_by_xpath("//*[@id='txtFechaCDP']").clear() # Anio Presupuestario	
+		driver.find_element_by_xpath("//*[@id='txtFechaRes']").clear() # Fecha Resolucion	
+		driver.find_element_by_xpath("//*[@id='txtObservacionRes']").clear() # Observacion
+
+
+
 		print("MontoaPago 				: ", MontoaPago)
 		print("Row Monto Total 			: ", row['Monto Total'])
 		diferenciaMonto = MontoaPago - row['Monto Total']
@@ -111,7 +126,7 @@ class SisValidacion80Bis(Fuente):
 							print("abs(MontoaPago - row['Monto Total'])", abs(MontoaPago - row['Monto Total']))
 							self.llenaInformacion(driver, datos, row, cnx)
 							self.databaseUpate(driver, cnx, datos, row, "OK", "OK")
-							WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnValidarCdp']"))).click()
+							WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnActualizarCdp']"))).click()
 							self.ingresar_Validacion(driver, datos)
 						else:
 							analisis = "Error en Monto a Pago"
@@ -123,7 +138,7 @@ class SisValidacion80Bis(Fuente):
 					elif row['Plazas Atendidas'] < Convenidas:
 						self.llenaInformacion(driver, datos, row, cnx)
 						self.databaseUpate(driver, cnx, datos, row, "OK", "OK")
-						WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnValidarCdp']"))).click()
+						WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnActualizarCdp']"))).click()
 						self.ingresar_Validacion(driver, datos)
 
 					else:
@@ -175,10 +190,12 @@ class SisValidacion80Bis(Fuente):
 		# ===================================================================================
 	def cerrarVentana(self, driver, datos, row, cnx):
 		try:
-			click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnClosePop2']" )))
+			# click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnClosePop2']" )))
+			click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnActualizarCdp']" )))
 			click.click()
 		except Exception as e:
-			click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnClosePop2" )))
+			# click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnClosePop2" )))
+			click = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnActualizarCdp" )))
 			click.click()
 
 		print("______________________ cerrarVentana ________________________")
@@ -188,8 +205,10 @@ class SisValidacion80Bis(Fuente):
 	def plazasAtendidasSonMenoresPlazasConvenidas(self, driver, datos, row, cnx):
 		self.llenaInformacion(driver, datos, row, cnx)
 		self.databaseUpate(driver, cnx, datos, row, "OK", "OK")
-		#WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnValidarCdp']"))).click()
-		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnValidarCdp"))).click()
+		# WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnActualizarCdp']"))).click()
+		# WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnActualizarCdp"))).click()
+		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnActualizarCdp"))).click()
+
 		time.sleep(3)
 
 		self.ingresar_Validacion(driver, datos)
@@ -212,8 +231,9 @@ class SisValidacion80Bis(Fuente):
 		chrome_options.add_experimental_option('prefs', prefs)
 		chrome_options.add_argument('--ignore-certificate-errors')
 		chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+		chrome_options.binary_location = '..//convenios_y_transferencias//webdriver//chrome-mac//Chromium.app//Contents//MacOS//Chromium'  # Ruta a la versión de Chromium 114.0.5735.90
 		#chrome_options.add_argument('--headless')
-		driver = webdriver.Chrome(executable_path=datos['webdriver_path'], chrome_options=chrome_options)
+		driver = webdriver.Chrome(executable_path='..//convenios_y_transferencias//webdriver//chromedriver', chrome_options=chrome_options)
 		driver.maximize_window()
 
 		self.setUp(driver, datos)
@@ -223,7 +243,7 @@ class SisValidacion80Bis(Fuente):
 		driver.get(datos['url_mejorninez'])
 		webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 		envioInformacion = Envio_Informacion()
-		envioInformacion.envio_Informacion_by_name(driver, "usuario", "hceballos@mejorninez.cl")
+		envioInformacion.envio_Informacion_by_name(driver, "usuario", "hceballos@servicioproteccion.gob.cl")
 		envioInformacion.envio_Informacion_by_name(driver, "password", "Mejorninez")
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "ingresar"))).click()
 		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Pagos/wf_ValidacionPagosExtra.aspx")
@@ -336,6 +356,9 @@ class SisValidacion80Bis(Fuente):
 			envioInforProyecto.envio_Informacion_by_name(driver, "I_ProyectoCodigo$txtCodigo", row['Cod. Proyecto']) 	# INPUT PROYECTO
 			webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 
+			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='rbtListEstado_1']"))).click()		# VALIDADOS	
+
+
 			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='btnBuscar']"))).click()		# BOTON BUSCAR	
 			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "btnBuscar"))).click()
 
@@ -354,7 +377,8 @@ class SisValidacion80Bis(Fuente):
 
 
 		# Buscar todas las filas en la tabla
-		rows = driver.find_elements_by_xpath("//*[@id='GV_Pendientes']") # //*[@id="GV_Pendientes_lblDetalle_0"] 
+		# rows = driver.find_elements_by_xpath("//*[@id='GV_Pendientes']") # //*[@id="GV_Pendientes_lblDetalle_0"] 
+		rows = driver.find_elements_by_xpath("GV_Pendientes_lnb_editar_0") # //*[@id="GV_Pendientes_lblDetalle_0"] 
 
 		# Contar el número de filas
 		num_rows = len(rows)

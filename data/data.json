@@ -5,7 +5,7 @@
 	"mover_fichero_a"           : "/Users/hectorCeballos/documents/desarrollo/automaton/input_excel",
 
 	"borar_fichero_anterior"    : "/Users/hectorCeballos/documents/desarrollo/automaton/input_excel/Cartera Financiera Presupuestaria - Devengo*.xlsx",
-	"excel_path"                : "/Users/hector/Documents/desarrollo/mejorninez/input_excel/*.xlsx",
+	"excel_path"                : "/Users/hector/Documents/desarrollo/convenios_y_transferencias/input_excel/Bis80/*.xlsx",
 	"url_mejorninez_test"       : "https://test-www.sis.mejorninez.cl/",
 	"url_mejorninez"            : "https://www.sis.mejorninez.cl/",
 	"url_retener"		        : "https://a1.sis.mejorninez.cl/mod_financiero/Pagos/wf_Retenciones.aspx",
@@ -24,6 +24,8 @@
 	"pagoMasivo"					: "../mejorninez/input_excel/calculoPrevioPago/pago/PagoMasivo*",
 	"readRetenciones"               : "../mejorninez/input_excel/retenciones/*/*/Retenciones*",
 	"readPagoManual"                : "../mejorninez/input_excel/pagoManual/*",
+	"readbis80"                		: "../convenios_y_transferencias/input_excel/Bis80/*",
+
 	"analisisRetenidos" 			: "../mejorninez/input_excel/AnalisisRetenidos/*",
 	"contraloria" 					: "../convenios_y_transferencias/input_excel/contraloria/*",
 

@@ -109,7 +109,7 @@ class Transferencias(object):
 
 			# Función para eliminar etiquetas HTML específicas de una cadena
 			def eliminar_etiquetas_html(texto_html):
-				texto_limpio = texto_html.replace('<tr>', '').replace('</tr>', '').replace('<td>', '').replace('</td>', '').replace('</Td><Td>', '').replace('</TR><Td>', '').replace('</Td>', '').replace('<TR><Td>', '')
+				texto_limpio = texto_html.replace('<tr>', '').replace('</tr>', '').replace('<td>', '').replace('</td>', '').replace('</Td><Td>', '').replace('</TR><Td>', '').replace('</Td>', '').replace('<TR><Td>', '').replace('$', '').replace('.', '')
 				return texto_limpio
 
 			# Aplicar la función a todas las celdas del DataFrame
