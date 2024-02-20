@@ -185,7 +185,6 @@ class Validacion(Fuente):
 			ORDER BY \
 				CodProyectos.'Región' DESC, \
 				CodProyectos.'Cod. Proyecto' ASC \
-			LIMIT 1 \
 		"
 		query = pd.read_sql_query(consulta, cnx)
 		self.consultaPagos(cnx, query, driver, datos)
@@ -200,7 +199,7 @@ class Validacion(Fuente):
 			envioInforProyecto.envio_Informacion_by_name(driver, "txtPeriodoDesde", row['Mes Atención'])
 			time.sleep(1.5)
 			envioInforProyecto.envio_Informacion_by_name(driver, "txtPeriodoHasta", row['Mes Atención'])
-			time.sleep(1.5)
+			time.sleep(3)
 			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "ddlTipoPago"))).click()
 			time.sleep(1)
 			WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='ddlTipoPago']/option[2]"))).click() 		# 80 Bis
@@ -241,6 +240,8 @@ class Validacion(Fuente):
 				if No_se_encontraron_registros == 'No se encontraron registros':
 					self.databaseUpateSinRegistros(driver, datos, row)
 			except Exception as e:
+				time.sleep(3)
+
 				WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "GV_Pendientes_lblDetalle_0"))).click() 		# BOTON DETALLE
 				time.sleep(1)
 				driver.find_element_by_tag_name('body').send_keys(Keys.END) 													# BAJAR EL SCROLL
@@ -277,14 +278,68 @@ class Validacion(Fuente):
 		print("diferenciaPlazas 			: ", diferenciaPlazas)
 
 		condicion = (str(row['Cod. Proyecto']) in Proyecto) and (str(row['MesAtencion']) == MesdeAtencion) and (str(row['Plazas Atendidas']) == Convenidas) and (abs(MontoaPago - row['Monto Total']) < 100) and (num_rows < 2)
-		if condicion:
-			resultado = "Si cumple"
-		else:
-			resultado = "No cumple"
+		# ===========================================================================================================================
+		try:
+			No_se_encontraron_registros = driver.find_element(By.XPATH, '//*[@id="lblAlertError"]').text
+			if No_se_encontraron_registros == 'No se encontraron registros':
+				conexion = sqlite3.connect("proyectos.db")
+				conexion.execute("UPDATE CodProyectos SET Estatus=?, Diferencia_plazas=?, Diferencia_monto=?  WHERE CodProyecto=? and MesAtencion=?", ("No se encontraron registros", "No se encontraron registros", "No se encontraron registros", row['CodProyecto'], row['MesAtencion']))
+				conexion.commit()
+				conexion.close()
+				print("Processing Proyecto  : ", row['Cod. Proyecto'], " " ,row['Mes Atención'], " " , row['Tipo'], " " , row['Mes Atención'], " " , row['Plazas Atendidas'], " " , row['Monto Total'], " No se encontraron registros" )
 
-		print("****************************** condicion: ", condicion)
-		print("****************************** resultado: ", resultado)
+				try:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='lnkLimpiar']"))).click()
+				except Exception as e:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "lnkLimpiar"))).click()
+				time.sleep(1.5)
+				return
 
+		# ===========================================================================================================================
+		except Exception as e:
+			if condicion:
+				resultado = "Si cumple"
+
+				time.sleep(2)
+				a_dict = {'txtNroCDP': row['Nº CDP'], 'txtFechaCDP': row['AÑO CDP'], 'txtNroRes': row['Resolución'], 'txtFechaRes': row['Fecha'], 'txtObservacionRes': row['OBSERVACION']}
+				for key in a_dict.keys():
+					print(key, '->', a_dict[key])
+					envio = WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, key )))
+					envio.click()
+					envio.clear()
+					envio.send_keys(a_dict[key])
+
+				cnx.execute("UPDATE CodProyectos SET Estatus=?, Diferencia_plazas=?, Diferencia_monto=?  WHERE CodProyecto=? and MesAtencion=?", ("OK", str(diferenciaPlazas), str(diferenciaMonto), row['CodProyecto'], row['MesAtencion']))
+				cnx.commit()
+				cnx.close()
+				print("Table updated...... OK")
+				time.sleep(1.5)
+
+				try:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnValidarCdp']/text()"))).click()
+				except Exception as e:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnValidarCdp"))).click()
+				return
+
+			# ===========================================================================================================================
+			else:
+				resultado = "No cumple"
+
+				conexion = sqlite3.connect("proyectos.db")
+				conexion.execute("UPDATE CodProyectos SET Estatus=?, Diferencia_plazas=?, Diferencia_monto=?  WHERE CodProyecto=? and MesAtencion=?", ("No se encontraron registros", str(diferenciaPlazas), str(diferenciaMonto), row['CodProyecto'], row['MesAtencion']))
+				conexion.commit()
+				conexion.close()
+				print("Processing Proyecto  : ", row['Cod. Proyecto'], " " ,row['Mes Atención'], " " , row['Tipo'], " " , row['Mes Atención'], " " , row['Plazas Atendidas'], " " , row['Monto Total'], " No se encontraron registros" )
+				time.sleep(1.5)
+
+				try:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='btnClosePop2']"))).click()
+				except Exception as e:
+					WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, "btnClosePop2"))).click()
+				return
+
+		# ===========================================================================================================================
+		"""
 		if str(row['Cod. Proyecto']) in Proyecto:
 			print(">>>>>>>>>>> : if str(row['Cod. Proyecto']) in Proyecto:")
 
@@ -342,50 +397,5 @@ class Validacion(Fuente):
 			print(" ==================== FIN ====================")
 
 
-
-
-		# ===================================================================================
-		cnx = sqlite3.connect('proyectos.db')
-		consulta  = " \
-			SELECT \
-				CodProyectos.'Mes Atención', \
-				CodProyectos.'Región', \
-				CodProyectos.'Cod. Proyecto', \
-				CodProyectos.'Monto Total', \
-				CodProyectos.'Nº CDP', \
-				CodProyectos.'AÑO CDP', \
-				CodProyectos.'Resolución', \
-				CodProyectos.'Fecha', \
-				CodProyectos.'OBSERVACION', \
-				CodProyectos.'Tipo', \
-				CodProyectos.'CodProyecto', \
-				CodProyectos.'MesAtencion', \
-				CodProyectos.'Estatus', \
-				CodProyectos.'Plazas Atendidas' \
-			FROM \
-				CodProyectos \
-			WHERE \
-				CodProyectos.'Tipo' = '80 BIS' \
-				and CodProyectos.'Estatus' != 'OK' \
-			ORDER BY \
-				CodProyectos.'Región' DESC, \
-				CodProyectos.'Cod. Proyecto' ASC \
-		"
-		query = pd.read_sql_query(consulta, cnx)
-		# self.pendientes(cnx, query, driver, datos)
-		# =================================================================================== *************************** COMENTAR PARA GENERAR EL INFORME **********************************
-
-		consulta  = " \
-			SELECT CodProyectos.* FROM CodProyectos \
-		"
-		query = pd.read_sql_query(consulta, cnx)
-
-		today = date.today()
-		writer = pd.ExcelWriter(today.strftime("output/"+"%d-%b-%Y")+' - Resumen Validados 80 Bis.xlsx', engine='xlsxwriter')
-		query.style.set_properties(**{'text-align': 'center'}).to_excel(writer, sheet_name='Todas las cuentas', index=False)
-		writer.save()
-
-
-
-		# ================================================================================================================================
+		"""
 

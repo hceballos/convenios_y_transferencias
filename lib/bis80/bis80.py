@@ -24,6 +24,7 @@ from lib.contraloria.scrapy import Scrapy
 from lib.contraloria.informes import Informes
 from lib.bis80.database import Database
 from lib.bis80.validacion import Validacion
+from lib.bis80.informe import Informe
 
 
 class Bis80(Fuente):
@@ -52,7 +53,7 @@ class Bis80(Fuente):
 			elif seleccion == "3":
 				self.opcion3()
 			elif seleccion == "4":
-				self.opcion3()
+				Informe(datos)
 			elif seleccion == "5":
 				print("Saliendo del programa. ¡Hasta luego!")
 				break

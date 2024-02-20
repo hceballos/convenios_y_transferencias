@@ -20,7 +20,8 @@ class Database(Fuente):
 		devengo['CodProyecto']  =  devengo['Cod. Proyecto']
 		devengo['MesAtencion']  =  devengo['Mes Atención']
 		devengo['Estatus']  	=  "Pendiente"
-		devengo['Diferencia']  	=  "Pendiente"
+		devengo['Diferencia_plazas']  	=  "Pendiente"
+		devengo['Diferencia_monto']  	=  "Pendiente"
 		del devengo['observacion']   
 
 		self.crear_database(devengo)
