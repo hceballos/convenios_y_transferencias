@@ -7,6 +7,9 @@ class Linea2401002:
 
 	def __init__(self, df):
 
+
+
+
 		#PIE
 		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PIE'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								  ) *df['factor_uss']	*df['plazas_atendidas']
 		df.loc[	(df['cuenta'] == '2401002') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'PIE'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
@@ -231,6 +234,11 @@ class Linea2401002:
 
 		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
 		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
+
+
+
+
+
 
 		database = Database()
 		database.crear_transferencias(df)

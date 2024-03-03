@@ -106,23 +106,71 @@ class Transferencias(object):
 			'FECHA CREACION', 'FECHA TERMINO', 'NUMERO CDP', 'ANNO PRESUPUESTARIO', 'NUMERO RESOLUCION CDP', 'FECHA RESOLUCION CDP', 'DESCRIPCION CDP']
 
 			df.columns = nombres_columnas
+			df.dropna(subset=['PROYECTO'], inplace=True)
 
 			# Función para eliminar etiquetas HTML específicas de una cadena
 			def eliminar_etiquetas_html(texto_html):
 				texto_limpio = texto_html.replace('<tr>', '').replace('</tr>', '').replace('<td>', '').replace('</td>', '').replace('</Td><Td>', '').replace('</TR><Td>', '').replace('</Td>', '').replace('<TR><Td>', '').replace('$', '').replace('.', '')
 				return texto_limpio
 
+
+
+
+
+
 			# Aplicar la función a todas las celdas del DataFrame
 			df = df.applymap(lambda x: eliminar_etiquetas_html(str(x)) if isinstance(x, str) else x)
 
+
+			# Reemplazar valores vacíos por 0 en columnas específicas
+			columnas_reemplazar_vacios = ['PLAZAS ATENDIDAS', 'USS', 'NUMERO PLAZAS']
+			df[columnas_reemplazar_vacios] = df[columnas_reemplazar_vacios].replace('', 0)
+
+
 			"""
-			df['PlzAtendidas']			= df['PlzAtendidas'].astype(int)
-			df['DiasAtencion']			= df['DiasAtencion'].astype(int)
-			df['Diferencia_Plazas']		= df['Diferencia_Plazas'].astype(int)
-			df['OrdenRegion']			= df['OrdenRegion'].astype(int)
-			df['Plazas_80Bis_APago']	= df['Plazas_80Bis_APago'].astype(int)
-			df['Plazas_Convenidas']		= df['Plazas_Convenidas'].astype(int)
+			df['PLAZAS ATENDIDAS'] = df['PLAZAS ATENDIDAS'].replace('', 0)
+			df['USS'] = df['USS'].replace('', 0)
+			df['NUMERO PLAZAS'] = df['NUMERO PLAZAS'].replace('', 0)
 			"""
+
+			# df['PLAZAS ATENDIDAS'] = df['PLAZAS ATENDIDAS'].astype(int)
+
+			df['MONTO LIQUIDO PAGADO']	= df['MONTO LIQUIDO PAGADO'].astype(int)
+			df['PLAZAS CONVENIDAS']		= df['PLAZAS CONVENIDAS'].astype(int)
+			df['PLAZAS ATENDIDAS']		= df['PLAZAS ATENDIDAS'].astype(int)
+
+
+			df['FACTOR FIJO'] = df['FACTOR FIJO'].str.replace(',', '.')
+			df['FACTOR FIJO'] = df['FACTOR FIJO'].astype(float)
+
+			df['FACTOR VARIABLE'] = df['FACTOR VARIABLE'].str.replace(',', '.')
+			df['FACTOR VARIABLE'] = df['FACTOR VARIABLE'].astype(float)
+
+			df['FACTOR EDAD']	= df['FACTOR EDAD'].astype(int)
+			df['FACTOR COBERTURA']	= df['FACTOR COBERTURA'].astype(int)
+
+			df['FACTOR DISCAPACIDAD'] = df['FACTOR DISCAPACIDAD'].str.replace(',', '.')
+			df['FACTOR DISCAPACIDAD'] = df['FACTOR DISCAPACIDAD'].astype(float)
+
+			df['FACTOR COMPLEJIDAD']	= df['FACTOR COMPLEJIDAD'].astype(int)
+			df['ASIGNACION ZONA']	= df['ASIGNACION ZONA'].astype(int)
+			df['USS']	= df['USS'].astype(int)
+			df['NUMERO PLAZAS']	= df['NUMERO PLAZAS'].astype(int)
+			df['NRO DIAS']	= df['NRO DIAS'].astype(int)
+
+
+
+
+
+			#df['FACTOR FIJO'] = pd.to_numeric(df['FACTOR FIJO'], errors='coerce')
+			#df['FACTOR FIJO'] = df['FACTOR FIJO'].round(3)
+
+			# df['DiasAtencion']			= df['DiasAtencion'].astype(int)
+			# df['Diferencia_Plazas']		= df['Diferencia_Plazas'].astype(int)
+			# df['OrdenRegion']			= df['OrdenRegion'].astype(int)
+			# df['Plazas_80Bis_APago']	= df['Plazas_80Bis_APago'].astype(int)
+			# df['Plazas_Convenidas']		= df['Plazas_Convenidas'].astype(int)
+
 
 			# Guardar el DataFrame en un nuevo archivo Excel
 			df.to_excel(archivo_salida, index=False, engine='openpyxl')

@@ -7,6 +7,8 @@ class Linea2401004:
 
 	def __init__(self, df):
 
+
+		"""
 		#FAE
 		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'FAE'), 'Monto Fijo']		=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								) *df['uss']	*df['plazas_atendidas']
 		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'FAE'), 'Monto Variable']	=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
@@ -42,7 +44,7 @@ class Linea2401004:
 
 		#df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM'), 'Estandar Monto Fijo']	=  "=AB60*(1+AE60+AI60+AH60)*AK60*Z60"
 		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM'), 'Monto Fijo']				=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								) *df['uss']	*df['plazas_convenidas']
-		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM'), 'Estandar Monto Variable'] =  "=AC60*(1+AD60+AG60+AF60)*AK60*Z60"				
+		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM'), 'Estandar Monto Variable'] =  "=AC60*(1+AD60+AG60+AF60)*AK60*Z60"
 		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM'), 'Monto Variable']			=  df['factor_variable']*(1+df['factor_edad']		+df['factor_complejidad']	+df['factor_discapacidad']	+df['asignacion_zona'])	*df['uss']			*df['plazas_atendidas']
 
 		df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'OTROS PAGOS') & (df['modelox'] == 'REM'), 'Monto Fijo']			=  df['factor_fijo']	*(1+df['factor_cobertura']	+df['asignacion_zona']		+df['factor_cvf']								) *df['uss']	*df['plazas_convenidas']
@@ -288,7 +290,37 @@ class Linea2401004:
 
 		df['Monto Convenio'] = df['Monto Fijo'] + df['Monto Variable']
 		df['Diferencia'] 	 = df['monto_liquido_pagado'] - df['Monto Convenio']
+		"""
 
+
+		"""
+		# Encontrar el índice de la fila que cumple con la condición
+		indice_filas = df[(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'URGENCIA') & (df['modelox'] == 'REM')].index
+
+		# Verificar si hay filas que cumplen con la condición
+		if not indice_filas.empty:
+			for indice_fila in indice_filas:
+				# Obtener el número de línea
+				numero_linea = indice_fila + 3  # Sumar 3 para ajustar al índice de Excel
+
+				# Construir la fórmula dinámicamente con el número de línea y la celda correcta
+				formula = f"=AC{numero_linea}*(1+AD{numero_linea}+AG{numero_linea}+AF{numero_linea})*AK{numero_linea}*Z{numero_linea}"
+
+				# Asignar la fórmula al DataFrame en la fila específica
+				df.at[indice_fila, 'Estandar Monto Variable'] = formula
+		"""
+
+
+		#df.loc[	(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'FAE'), 'Monto Fijo'] = df['factor_fijo'] * (1+df['factor_cobertura'] + df['asignacion_zona'] + df['factor_cvf']								) *df['uss']	*df['plazas_atendidas']
+
+		"""
+		for indice_fila in df[(df['cuenta'] == '2401004') & (df['tipo_pago'] == 'MASIVO NORMAL') & (df['modelox'] == 'FAE')].index:
+			df.at[indice_fila, 'Estandar Monto Fijo'] 		= f"=AB{indice_fila + 2}*(1+AE{indice_fila + 2}+AI{indice_fila + 2}+AH{indice_fila + 2})*AK{indice_fila + 2}*AA{indice_fila + 2}"
+			df.at[indice_fila, 'Estandar Monto Variable'] 	= f"=AC{indice_fila + 2}*(1+AD{indice_fila + 2}+AG{indice_fila + 2}+AF{indice_fila + 2})*AK{indice_fila + 2}*AA{indice_fila + 2}"
+		
+		df.at[indice_fila, 'Estandar Monto Total'] 		= f"=BG{indice_fila + 2} + BH{indice_fila + 2}"
+		df.at[indice_fila, 'Estandar Diferencia'] 		= f"=Y{indice_fila + 2}  - BI{indice_fila + 2}"
+		"""
 
 
 		database = Database()

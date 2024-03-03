@@ -11,6 +11,7 @@ from datetime import datetime
 from lib.centralizacion.analisis.analisis import Analisis
 #from lib.centralizacion.scrapy import Scrapy
 from lib.centralizacion.scrapyProceso.setup import Setup
+from datetime import date
 
 
 class Informes(object):
@@ -50,14 +51,14 @@ class Informes(object):
 			"""
 			# ========================================================================================================
 
-
-
-
 			df.to_excel(writer, sheet_name=nombre_archivo, index=False)
 
 	def __init__(self):
 		
-		writer = pd.ExcelWriter(r'./output/Centralizacion.xlsx', engine='xlsxwriter',options={'strings_to_urls': False})
+
+
+		today = date.today()
+		writer = pd.ExcelWriter(today.strftime("output/"+"%d-%b-%Y")+' - Centralizacion.xlsx', engine='xlsxwriter')
 		cnx = sqlite3.connect('centralizacion.db')
 
 		for f in glob.glob('./lib/centralizacion/querys/*.txt', recursive=True):
@@ -80,15 +81,15 @@ class Informes(object):
 		worksheet.set_column('D:D', 	None, verde)
 		worksheet.set_column('G:G', 	None, verde)
 		worksheet.set_column('Y:Y', 	None, verde)
-		worksheet.set_column('BA:BC', 	None, verde)
+		worksheet.set_column('BG:BI', 	None, verde)
 		#worksheet.set_column('BA:BA', 	None, beige)
-		worksheet.set_column('BE:BE', 	None, beige)
+		worksheet.set_column('BJ:BJ', 	None, beige)
 
 
 		# Fijar la fila superior
 		worksheet.freeze_panes(1, 0)  # Fijar la fila superior
 
 		# Aplicar un filtro a la columna deseada
-		worksheet.autofilter('A1:BM1')  # Filtrar la columna 'columna1'
+		worksheet.autofilter('A1:BK1')  # Filtrar la columna 'columna1'
 
 		writer.save()

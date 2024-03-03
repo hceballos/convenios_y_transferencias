@@ -26,12 +26,13 @@ from lib.contraloria.scrapyProceso.tablaPagos import TablaPagos
 import os
 import openpyxl
 import xlrd
+import datetime
 
 
 class Deudas(object):
 	def __init__(self):
 
-		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/transferencias/reporteDeuda/*', recursive=True):
+		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/reporteDeuda/*', recursive=True):
 			# print('Procesando  : ', f)
 			# Verificar si el archivo existe antes de intentar eliminarlo
 			if os.path.exists(f):
@@ -79,6 +80,13 @@ class Deudas(object):
 
 		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Consultas/wf_ReportesFinancieroConsulta.aspx")
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='gvReportes']/tbody/tr[7]/td[2]"))).click()  # BOTON BUSCAR
+		fecha_actual = datetime.datetime.now()
+		fecha_hace_un_anio 	= fecha_actual - datetime.timedelta(days=365)
+		fecha_pasada 		= fecha_hace_un_anio.strftime("%d-%m-%Y")
+		fecha_formateada 	= fecha_actual.strftime("%d-%m-%Y")
+		envioInformacion.envio_Informacion_by_name(driver, "txtCreacionDeudaHasta", fecha_formateada) # FECHA HASTA
+		envioInformacion.envio_Informacion_by_name(driver, "txtCreacionDeudaDesde", fecha_pasada) # FECHA DESDE
+		time.sleep(5)
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "lnkGenerar"))).click()  # BOTON BUSCAR
 		time.sleep(20)
 		driver.quit()
@@ -92,42 +100,52 @@ class Deudas(object):
 		for f in glob.glob(os.getcwd()+'/input_excel/centralizacion/reporteDeuda/Reporte_Deudas*.xls', recursive=True):
 			# print('Procesando  : ', f)
 			# Leer el archivo .xls y convertirlo a .xlsx
-			try:
-				wb = openpyxl.Workbook()
-				ws = wb.active
-				
-				with open(f, 'rb') as x:
-					content = x.read().decode('utf-16')
-					for row in content.split('\n'):
-						row_data = row.strip().split('\t')
-						ws.append(row_data)
-				
-				# Guardar el archivo .xlsx
-				archivo_salida = os.getcwd()+'/input_excel/centralizacion/reporteDeuda/Deudas.xlsx'
-				wb.save(archivo_salida)
-				# print('El archivo se ha convertido a .xlsx correctamente')
-				
-				# Leer el archivo .xlsx en un DataFrame
-				df = pd.read_excel(archivo_salida)
-				df = df.drop(df.index[-1])
-
-				nombres_columnas =  ['Id Deuda', 'Id Cuota', 'Tipo Deuda', 'Código Proyecto', 'Nombre Proyecto', 'Fecha Deuda', 'Fecha Actualización', 'Usuario',
-				'Observación', 'Tipo', 'Monto Total', 'Cantidad Cuotas', 'N° Cuota', 'Fecha Vencimiento', 'Monto Cuota', 'Estado Cuota','a','s','r'
-				]
-
-				df.columns = nombres_columnas
-				#df['Monto Total']          = df['Monto Total'].astype(int)
-				#df['Monto Cuota']          = df['Monto Cuota'].astype(int)
-
-				# Aplicar la función para eliminar etiquetas HTML a todas las celdas del DataFrame
-				df = df.applymap(lambda x: eliminar_etiquetas_html(str(x)) if isinstance(x, str) else x)
-
-				# Guardar el DataFrame modificado en el mismo archivo .xlsx
-				df.to_excel(archivo_salida, index=False)
-				# print('Se han eliminado las etiquetas HTML del archivo .xlsx')
+			wb = openpyxl.Workbook()
+			ws = wb.active
 			
-			except Exception as e:
-				print(f"Error al procesar el archivo: {e}")
+			with open(f, 'rb') as x:
+				content = x.read().decode('utf-16')
+				for row in content.split('\n'):
+					row_data = row.strip().split('\t')
+					ws.append(row_data)
+			
+			# Guardar el archivo .xlsx
+			archivo_salida = os.getcwd()+'/input_excel/centralizacion/reporteDeuda/Deudas.xlsx'
+			wb.save(archivo_salida)
+			# print('El archivo se ha convertido a .xlsx correctamente')
+			
+			# Leer el archivo .xlsx en un DataFrame
+			df = pd.read_excel(archivo_salida)
+			df = df.drop(df.index[-1])
+
+			nombres_columnas =  ['Id Deuda', 'Id Cuota', 'Tipo Deuda', 'Código Proyecto', 'Nombre Proyecto', 'Fecha Deuda', 'Fecha Actualización', 'Usuario',
+			'Observación', 'Tipo', 'Monto Total', 'Cantidad Cuotas', 'N° Cuota', 'Fecha Vencimiento', 'Monto Cuota', 'Estado Cuota'
+			]
+
+
+
+			df.columns = nombres_columnas
+			#df['Monto Total']          = df['Monto Total'].astype(int)
+			#df['Monto Cuota']          = df['Monto Cuota'].astype(int)
+
+			# Aplicar la función para eliminar etiquetas HTML a todas las celdas del DataFrame
+			df = df.applymap(lambda x: eliminar_etiquetas_html(str(x)) if isinstance(x, str) else x)
+
+			df.dropna(subset=['Monto Cuota'], inplace=True)
+
+			# Reemplazar comas por puntos en la columna (si es necesario)
+			df['Monto Cuota'] = df['Monto Cuota'].str.replace(',', '.')
+
+			# Convertir la columna a tipo float y luego a tipo entero
+			df['Monto Cuota'] = df['Monto Cuota'].astype(float).astype(int)
+
+
+
+			# Guardar el DataFrame modificado en el mismo archivo .xlsx
+			df.to_excel(archivo_salida, index=False)
+			# print('Se han eliminado las etiquetas HTML del archivo .xlsx')
+		
+
 
 
 			# Verificar si el archivo existe antes de intentar eliminarlo

@@ -277,8 +277,11 @@ class Database(object):
 			)
 
 		metadata.create_all(engine)
+
 		transferencias.to_sql('transferencias', engine, if_exists='replace')
 		#print("Éxito en la actualización de la tabla 'transferencias' en la base de datos 'centralizacion'.")
+
+
 
 	def crear_retenidos(self, retenidos):
 		metadata = sqlalchemy.MetaData()

@@ -24,6 +24,7 @@ from lib.fuente import Fuente
 from lib.elementos import Envio_Informacion, Click
 from lib.contraloria.scrapyProceso.tablaPagos import TablaPagos
 import os
+from datetime import datetime
 
 
 
@@ -79,11 +80,15 @@ class FES(object):
 		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Consultas/wf_ReportesFinancieroConsulta.aspx")
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='gvReportes']/tbody/tr[4]/td[2]"))).click()  # BOTON BUSCAR
 
+		año_actual = datetime.now().year
+		mes_actual = datetime.now().strftime('%m')
+		Fecha_de_Traspaso = str(año_actual)+str(mes_actual)
+
 		envioInforProyecto = Envio_Informacion()
 		#time.sleep(2.5)
-		envioInforProyecto.envio_Informacion_by_name(driver, "txtFesFinal", '202401')
+		envioInforProyecto.envio_Informacion_by_name(driver, "txtFesFinal", Fecha_de_Traspaso)
 		#time.sleep(2.5)
-		envioInforProyecto.envio_Informacion_by_name(driver, "txtMesAnoFes", '202401')
+		envioInforProyecto.envio_Informacion_by_name(driver, "txtMesAnoFes", Fecha_de_Traspaso)
 		time.sleep(2.5)
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "lnkGenerar"))).click()  # BOTON BUSCAR
 		time.sleep(20)

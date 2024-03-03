@@ -34,16 +34,16 @@ class Centralizacion(Fuente):
 		datos = self.datos
 
 
-		Download()
+		### Download()
 		# ReadMalla(datos)
 		# ReadRetenidos(datos)
 		# ReadRendicionDeCuentas(datos)
-		## ReadTodosLosPagos(datos)
+		### ReadTodosLosPagos(datos)
 		ReadTransferencias(datos)
-		ReadReporteDeuda(datos)
-		ReadtodasLasFES(datos)
+		### ReadReporteDeuda(datos)
+		### ReadtodasLasFES(datos)
 		# ScrapingSigfeReports(datos)
 
 		# main()
 
-		# Informes()
+		Informes()

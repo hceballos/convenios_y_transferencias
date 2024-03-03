@@ -21,6 +21,7 @@ class ReadReporteDeuda:
 				'Factor USS': int
 				} )
 			deuda = deuda.append(deuda_actual, ignore_index=True)
+		deuda = deuda[deuda['Monto Cuota'].notna()]
 
 		deuda['Analisis']      = 'Pendiente'
 		deuda.rename(columns={
@@ -30,8 +31,9 @@ class ReadReporteDeuda:
 			'N° Cuota' : 'n_Cuota'
 			}, inplace=True)
 
-		deuda['fecha'] 		= pd.to_datetime(deuda['Fecha Vencimiento'], format='%Y-%m-%d %H:%M:%S.%f', errors='coerce')
-		deuda['numero_mes'] = deuda['fecha'].dt.month.map("{:02d}".format)
-		deuda['unico'] 		= deuda['unico'] = deuda['cod_proyecto'].astype(str) + deuda['Tipo'] + deuda['numero_mes'].astype(str) + deuda['Estado Cuota']
+		deuda['numero_mes'] = pd.to_datetime(deuda['Fecha Vencimiento'], format='%d-%m-%Y %H:%M:%S').dt.month.map("{:02d}".format)
+		#deuda['unico'] 		= deuda['unico'] = deuda['cod_proyecto'].astype(str) + deuda['Tipo'] + deuda['numero_mes'].astype(str) + deuda['Estado Cuota']
+		deuda.reset_index(drop=True, inplace=True)
+
 		database = Database()
 		database.crear_deuda(deuda)

@@ -7,7 +7,7 @@ class ReadtodasLasFES:
 		self.datos = datos
 
 		fes = pd.DataFrame()
-		for f in glob.glob('./input_excel/centralizacion/todasLasFES/*.xlsx', recursive=True):
+		for f in glob.glob('./input_excel/centralizacion/FES/*.xlsx', recursive=True):
 			print('Procesando  : ', f)
 
 			fes_actual = pd.read_excel(f)

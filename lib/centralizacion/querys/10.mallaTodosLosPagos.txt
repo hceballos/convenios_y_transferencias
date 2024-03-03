@@ -1,0 +1,25 @@
+SELECT
+	t.*,
+	d.'n_Cuota',
+	d.'Monto Cuota'
+FROM		
+		(SELECT 
+			transferencias.* 
+		FROM 
+			transferencias
+		)t
+
+	LEFT JOIN
+	
+		(SELECT
+			deuda.*
+		FROM
+			deuda
+		WHERE
+			deuda.'Estado Cuota' <> 'Anulado'
+			and deuda.'Estado Cuota' <> 'Transferido'
+			and deuda.'Tipo' = 'Debe'
+		)d
+		ON t.'cod_proyecto' = d.'cod_proyecto'
+		AND t.'numero_mes' = d.'numero_mes'
+		

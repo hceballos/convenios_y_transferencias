@@ -38,6 +38,3 @@ FROM
 		ON t.'cod_proyecto' = d.'cod_proyecto'
 		AND t.'numero_mes' = d.'numero_mes'
 		
-ORDER BY
-	t.cuenta,
-	t.modelox
