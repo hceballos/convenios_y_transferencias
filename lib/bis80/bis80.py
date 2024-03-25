@@ -22,7 +22,7 @@ import requests
 from lib.contraloria.readExcel import ReadExcel
 from lib.contraloria.scrapy import Scrapy
 from lib.contraloria.informes import Informes
-from lib.bis80.database import Database
+from lib.bis80.database import Database, Database_rezagados
 from lib.bis80.validacion import Validacion
 from lib.bis80.informe import Informe
 

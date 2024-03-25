@@ -44,7 +44,7 @@ class Deudas(object):
 
 		chrome_options = webdriver.ChromeOptions()
 		prefs = {
-			'download.default_directory': os.getcwd()+'/input_excel/centralizacion/reporteDeuda/',
+			'download.default_directory': os.getcwd()+'\\input_excel\\centralizacion\\reporteDeuda\\',
 			"download.prompt_for_download": False,
 			"download.directory_upgrade": True,
 			"safebrowsing_for_trusted_sources_enabled": False,

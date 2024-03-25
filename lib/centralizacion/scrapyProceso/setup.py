@@ -51,6 +51,7 @@ class Setup():
 		envioInformacion.envio_Informacion_by_name(driver, "password", "Mejorninez")
 		WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "ingresar"))).click()
 		driver.get("https://a1.sis.mejorninez.cl/mod_financiero/Pagos/wf_InformePagos.aspx")
+
 		time.sleep(5)
 
 		for index, row in query.iterrows():

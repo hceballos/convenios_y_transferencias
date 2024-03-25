@@ -35,10 +35,10 @@ class ReadTransferencias:
 		for indice_fila in indice_filas:
 			if df.at[indice_fila, 'numero_plazas'] == 0:
 				df.at[indice_fila, 'Estandar Monto Fijo'] 		= f"=AA{indice_fila}*(1+AD{indice_fila}+AH{indice_fila}+AG{indice_fila})*AJ{indice_fila}*BC{indice_fila}"
-				df.at[indice_fila, 'Estandar Monto Variable']	= f"=AB{indice_fila}*(1+AC{indice_fila}+AF{indice_fila}+AE{indice_fila}+AE{indice_fila})*AJ{indice_fila}*AK{indice_fila}"
+				df.at[indice_fila, 'Estandar Monto Variable']	= f"=AB{indice_fila}*(1+AC{indice_fila}+AF{indice_fila}+AE{indice_fila}+AE{indice_fila}+AH{indice_fila})*AJ{indice_fila}*AK{indice_fila}"
 			else:
 				df.at[indice_fila, 'Estandar Monto Fijo'] 		= f"=AA{indice_fila}*(1+AD{indice_fila}+AH{indice_fila}+AG{indice_fila})*AJ{indice_fila}*BC{indice_fila}"
-				df.at[indice_fila, 'Estandar Monto Variable'] 	= f"=AB{indice_fila}*(1+AC{indice_fila}+AF{indice_fila}+AE{indice_fila}+AE{indice_fila})*AJ{indice_fila}*BC{indice_fila}"
+				df.at[indice_fila, 'Estandar Monto Variable'] 	= f"=AB{indice_fila}*(1+AC{indice_fila}+AF{indice_fila}+AE{indice_fila}+AE{indice_fila}+AH{indice_fila})*AJ{indice_fila}*BC{indice_fila}"
 
 			df.at[indice_fila, 'Estandar Monto Total'] 	= f"=BD{indice_fila} + BE{indice_fila}"
 			df.at[indice_fila, 'Estandar Diferencia'] 	= f"=X{indice_fila} - BF{indice_fila}"
